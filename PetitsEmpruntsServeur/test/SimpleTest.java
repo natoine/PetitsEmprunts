@@ -11,15 +11,19 @@ import static org.fest.assertions.Assertions.*;
 
 public class SimpleTest {
 
-    @Test 
-    public void simpleCheck() {
-        int a = 1 + 1;
-        assertThat(a).isEqualTo(2);
-    }
+	@Test 
+	public void testAccountCreation() 
+	{
+		Application.createAccount("login", "email@gmail.com", "mdp");
+		UserAccount user = UserAccount.findByEmail("email@gmail.com");
+		assertThat(user).isNotNull();
+	}
 
-    @Test 
-    public void simpleCheck2() {
-        int a = 1 + 2;
-        assertThat(a).isEqualTo(2);
-    }
+	@Test
+	public void goodRoute() 
+	{
+		Result result = routeAndCall(fakeRequest(GET, "/subscribe"));
+		assertThat(result).isNotNull();
+	}
+
 }
