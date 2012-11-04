@@ -36,4 +36,9 @@ public class UserAccount extends Model{
 	{
 		return find.where().eq("email", email).findUnique();
 	}
+	
+	public static void create(UserAccount ua)
+	{
+		ua.save();
+	}
 }
