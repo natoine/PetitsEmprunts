@@ -1,6 +1,10 @@
 package test;
 
+import models.UserAccount;
+
 import org.junit.*;
+
+import controllers.Application;
 
 import play.mvc.*;
 import play.test.*;
