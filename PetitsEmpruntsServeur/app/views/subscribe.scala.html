@@ -7,7 +7,7 @@
 	@form(routes.Application.createAccount()) {
 		@inputText(userAccountForm("nickname"), '_label -> "Pseudo")
 		@inputText(userAccountForm("email"), '_label -> "Email")
-		@inputText(userAccountForm("password"), '_label -> "Password")
+		@inputPassword(userAccountForm("password"), '_label -> "Password")
 		<input type="submit" value="create">
 	}
 }
