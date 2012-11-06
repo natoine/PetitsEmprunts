@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
@@ -14,6 +16,7 @@ import play.db.ebean.Model;
 public class UserAccount extends Model{
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Long id;
 	
 	@Required @Column(unique=true)
