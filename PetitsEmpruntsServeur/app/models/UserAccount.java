@@ -22,7 +22,7 @@ public class UserAccount extends Model{
 	@Required @Column(unique=true)
 	private String nickname;
 	
-	@Required @Email
+	@Required @Email @Column(unique=true)
 	private String email;
 	
 	@Required
