@@ -17,17 +17,57 @@ public class UserAccount extends Model{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long id;
+	private Long id;
 	
 	@Required @Column(unique=true)
-	public String nickname;
+	private String nickname;
 	
 	@Required @Email
-	public String email;
+	private String email;
 	
 	@Required
-	public String password;
+	private String password;
 	
+	public Long getId()
+	{
+		return id;
+	}
+
+	public void setId(Long _id)
+	{
+		id = _id; 
+	}
+
+	public String getNickname()
+	{
+		return nickname ;
+	}
+
+	public void setNickname(String _nickname)
+	{
+		nickname = _nickname ;
+	}
+
+	public String getEmail()
+	{
+		return email ;
+	}
+
+	public void setEmail(String _email)
+	{
+		email = _email ;
+	}
+	
+	public String getPassword()
+	{
+		return password ;
+	}
+
+	public void setPassword(String _password)
+	{
+		password = _password ;
+	}
+
 	public static Finder<Long, UserAccount> find = new Finder<Long, UserAccount>(Long.class, UserAccount.class);
 	
 	public static List<UserAccount> findAll()
