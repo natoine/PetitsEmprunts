@@ -3,11 +3,12 @@
 @main("Petits Emprunts entre Amis") {
     
     @if(session.get("nickname") == null) {
-                    					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                    					<h3>Lorem ipsum dolor sit amet,</h3> 
+                    					<p>consectetur adipiscing elit. 
                     					Curabitur purus nulla, tristique id auctor at, facilisis eget sapien. 
                     					Ut dignissim velit elementum lorem accumsan fermentum sit amet ut metus. 
                     					Aliquam eget mi tempus augue placerat mattis quis eget nisi. 
-                    					Nam pharetra mollis est sit amet ultrices.
+                    					Nam pharetra mollis est sit amet ultrices.</p>
                     				} else {
                     					Bonjour @session.get("nickname") ^^
                     				}

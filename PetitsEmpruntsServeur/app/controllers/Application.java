@@ -51,6 +51,11 @@ public class Application extends Controller {
 	
 	public static Result loginForm()
 	{
+		if(session().get("nickname") != null)
+		{
+			session().clear();
+			flash("success", "You've been logged out");
+		}
 		return ok(login.render(form(Login.class)));
 	}
 	
