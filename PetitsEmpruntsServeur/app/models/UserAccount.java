@@ -89,4 +89,24 @@ public class UserAccount extends Model{
 	{
 		ua.save();
 	}
+	
+	/**
+     * Authenticate a User.
+     */
+    public static UserAccount authenticateMail(String email, String password) {
+        return find.where()
+            .eq("email", email)
+            .eq("password", password)
+            .findUnique();
+    }
+
+/**
+     * Authenticate a User.
+     */
+    public static UserAccount authenticateNickname(String nickname, String password) {
+        return find.where()
+            .eq("nickname", nickname)
+            .eq("password", password)
+            .findUnique();
+    }
 }
