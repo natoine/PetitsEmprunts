@@ -3,17 +3,21 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           controllers.AccountControl.index()
 
 # Account Management
 # Create an Account
-GET	/subscribe		controllers.Application.createAccountForm()
-POST	/subscribe		controllers.Application.createAccount()
+GET	/subscribe		controllers.AccountControl.createAccountForm()
+POST	/subscribe		controllers.AccountControl.createAccount()
 
 # Login
-GET	/login			controllers.Application.loginForm()
-POST    /login                              controllers.Application.authenticate()
-GET     /logout                             controllers.Application.logout()
+GET	/login			controllers.AccountControl.loginForm()
+POST    /login                  controllers.AccountControl.authenticate()
+GET     /logout                 controllers.AccountControl.logout()
+
+#User Space
+GET	/emprunts		controllers.UserControl.getEmprunts()
+GET	/prets			controllers.UserControl.getPrets()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

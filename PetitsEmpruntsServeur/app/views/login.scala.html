@@ -1,7 +1,7 @@
 @(form: Form[Login])
 
         @main("Petits Emprunts entre Amis") {
-        @helper.form(routes.Application.authenticate) {
+        @helper.form(routes.AccountControl.authenticate) {
             <h1>Sign in</h1>
             
             @if(form.hasGlobalErrors) { 

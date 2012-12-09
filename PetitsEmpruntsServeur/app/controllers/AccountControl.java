@@ -8,7 +8,7 @@ import models.UserAccount;
 
 import views.html.*;
 
-public class Application extends Controller {
+public class AccountControl extends Controller {
 	
 	static Form<UserAccount> userAccountForm = form(UserAccount.class);
   
@@ -40,7 +40,7 @@ public class Application extends Controller {
 		else
 		{
 			UserAccount.create(filledForm.get());
-			return redirect(routes.Application.index());
+			return redirect(routes.AccountControl.index());
 		}
 	}
 
@@ -76,7 +76,7 @@ public class Application extends Controller {
 	else currentUser = UserAccount.findByNickname(identifier);
             session("nickname", currentUser.getNickname());
             return redirect(
-                routes.Application.index()
+                routes.AccountControl.index()
             );
         }
     }
@@ -88,8 +88,7 @@ public class Application extends Controller {
         session().clear();
         flash("success", "You've been logged out");
         return redirect(
-            routes.Application.loginForm()
+            routes.AccountControl.loginForm()
         );
     }
-
 }

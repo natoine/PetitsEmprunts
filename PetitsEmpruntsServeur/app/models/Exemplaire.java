@@ -25,6 +25,10 @@ public class Exemplaire extends Model
 	
 	private State etat ;
 	
+	public enum State {
+		NEW, NEARLYNEW, CORRECT, BAD, VERYBAD
+	}
+
 	public static Finder<Long,Exemplaire> find = new Finder( Long.class, Exemplaire.class );
 
 	public static List<Exemplaire> findAll() 
@@ -36,7 +40,7 @@ public class Exemplaire extends Model
 	        List<Exemplaire> exemplaires = findAll();
 	        LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
 	        for(Exemplaire ex: exemplaires) {
-	            options.put(ex.id.toString(), ex.item.getLabel() + " " + ex.etat.getLabel());
+	            options.put(ex.id.toString(), ex.item.getLabel() + " " + ex.etat);
 	        }
 	        return options;
 	    }

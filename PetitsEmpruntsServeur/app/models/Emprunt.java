@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,9 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 @Entity
 public class Emprunt extends Model
 {
@@ -25,8 +29,11 @@ public class Emprunt extends Model
 	
 	@Required
 	private UserAccount emprunteur ;
+
+	@Temporal( TemporalType.DATE )
+	private Date dateEmprunt = new Date();
 	
-	public static Finder<Long,Emprunt> find = new Finder( Long.class, Emprunt.class );
+	public static Finder<Long,Emprunt> find = new Finder<Long , Emprunt>( Long.class, Emprunt.class );
 
 	public static List<Emprunt> findAll() 
 	{
@@ -42,6 +49,16 @@ public class Emprunt extends Model
 	        return options;
 	    }
 	
+	public static List<Emprunt> findByOwner(UserAccount owner)
+	{
+		return find.where().eq( "possession.proprietaire" , owner ).findList();
+	}
+
+	public static List<Emprunt> findByEmprunteur(UserAccount emprunteur)
+	{
+		return find.where().eq("emprunteur", emprunteur).findList();
+	}
+
 	public static void delete(Long id) 
 	{
 		find.ref(id).delete();
@@ -74,5 +91,10 @@ public class Emprunt extends Model
 
 	public void setEmprunteur(UserAccount emprunteur) {
 		this.emprunteur = emprunteur;
+	}
+
+	public Date getDateEmprunt()
+	{
+		return dateEmprunt ;
 	}
 }

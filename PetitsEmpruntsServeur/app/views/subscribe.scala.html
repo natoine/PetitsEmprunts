@@ -4,7 +4,7 @@
 
 @main("Subscription") {
 
-	@form(routes.Application.createAccount()) {
+	@form(routes.AccountControl.createAccount()) {
 		@inputText(userAccountForm("nickname"), '_label -> "Pseudo")
 		@inputText(userAccountForm("email"), '_label -> "Email")
 		@inputPassword(userAccountForm("password"), '_label -> "Password")

@@ -1,0 +1,19 @@
+@(emprunts: List[Emprunt])
+
+@main("Petits Emprunts : Vos emprunts") {
+    
+    @if(session.get("nickname") == null) {
+                    					<p>Vous n'avez rien à faire ici</p>
+                    				} else {
+                    					<p>Bonjour @session.get("nickname") ^^</p>
+							<p>Voici la liste de vos emprunts : </p>
+							 <ul>
+        @for(emprunt <- emprunts) {
+            <li>
+                @emprunt.getPossession.getExemplaire.getItem.getLabel en état : @emprunt.getPossession.getExemplaire.getEtat Emprunté le : @emprunt.getDateEmprunt
+                
+            </li>
+        }
+    </ul>
+                    				}
+}
