@@ -22,7 +22,15 @@ public class Global extends GlobalSettings {
 
                 // Insert users first
                 Ebean.save(all.get("users"));
-
+		//Insert items
+		Ebean.save(all.get("items"));
+		//Insert exemplaires
+		Ebean.save(all.get("exemplaires"));
+		//Insert possessions
+		Ebean.save(all.get("possessions"));
+		//Insert emprunts
+		Ebean.save(all.get("emprunts"));
+		
             }
         }
         
