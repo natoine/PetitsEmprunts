@@ -12,5 +12,10 @@ GET 	/register					controllers.Application.register()
 #UserProfile
 GET 	/myProfile					controllers.UserProfile.index()
 
+#Users
+GET 	/users 						controllers.Application.userAccounts()
+POST 	/users 						controllers.Application.newUserAccount()
+GET		/user/:nickname				controllers.Application.seeUserAccount(nickname: String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

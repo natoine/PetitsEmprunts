@@ -6,14 +6,13 @@ import java.util.Map;
 import models.Login;
 import models.RegistrationForm;
 import models.UserActive;
-
-import com.mongodb.MongoException.DuplicateKey;
-
 import play.Logger;
 import play.data.Form;
 import play.data.validation.ValidationError;
 import play.mvc.Controller;
 import play.mvc.Result;
+
+import com.mongodb.MongoException.DuplicateKey;
 
 public class Application extends Controller
 {
@@ -36,6 +35,29 @@ public class Application extends Controller
 		return ok(views.html.register.render(registrationForm));
 	}
  
+	public static Result userAccounts() 
+	{
+		return ok(views.html.users.render(UserActive.all(), registrationForm));
+	}
+	
+	public static Result seeUserAccount(String nickname)
+	{
+		UserActive userAccount = UserActive.findByNickname(nickname);
+		if(userAccount == null)
+			return redirect(routes.Application.index());
+		else 
+		{
+			if(session("nickname") != null)
+			{
+				if(session("nickname").equals(nickname))
+				{
+					return redirect(routes.UserProfile.index());
+				}
+			}
+			return ok(views.html.user.render(userAccount));
+		}
+	}
+	
 	public static Result newUserAccount() 
 	{
 		

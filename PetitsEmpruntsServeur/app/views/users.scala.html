@@ -1,0 +1,15 @@
+@(uas: List[UserActive], uaForm: Form[RegistrationForm])
+
+@import helper._
+
+@main("UserActives") {
+  
+  <h1>@uas.size() User(s)</h1>
+  
+  <ul>
+    @for(ua <- uas) {
+      <li><a href="@routes.Application.seeUserAccount(ua.getNickname)">@ua.getNickname</a> : @ua.getFirstname @ua.getLastname @ua.getEmail
+      </li>
+    }
+  </ul>
+}
