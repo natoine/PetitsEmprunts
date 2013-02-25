@@ -66,4 +66,10 @@ public class Borrow
 	public void setClosingDate(Date closingDate) {
 		this.closingDate = closingDate;
 	}
+	
+	public boolean hasBeenReturned()
+	{
+		if(closingDate == null) return false ;
+		else return true ;
+	}
 }
