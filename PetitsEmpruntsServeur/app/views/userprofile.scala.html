@@ -6,13 +6,17 @@
 	<h2>Déclarer un nouvel emprunt : </h2>
 	<form>
 	<label>Qui ?</label>
+<<<<<<< HEAD
 	<input type="text" name="borrower"/>
+=======
+	<input type="text" name="search-user-borrower" />
+>>>>>>> 71a1ee4ddfca75956687a7511c87f824ed13dfe0
 	
 	<label>Quoi ?</label>
-	<input type="text" name="exemplary" />
+	<input type="text" name="search-exemplary" />
 	
 	<label>A qui ?</label>
-	<input type="text" name="owner" />
+	<input type="text" name="search-user-owner" />
 	<button class="btn-add-borrow"> Ajouter </button>
 	</form>
 	
@@ -32,5 +36,30 @@
 	} else {
 	<h2>Aucun emprunt en cours.</h2>
 	}
+
 	</div>
 }
+
+<script type="text/javascript">
+$(document).ready(function($){
+
+$('input[name^="searchTerminal-"]').tokenInput("/admin/search", {	
+				method : "POST",
+				queryParam : "filter",
+				propertyToSearch : "name",
+				noResultsText : "Pas de résultats.",
+				hintText : "Tapez le nom de la chambre",
+				searchingText : "Recherche...",
+				tokenLimit : 1,
+				animateDropdown : false,
+				onAdd : function(event) {
+					$("#search").removeAttr("disabled");
+				},
+				
+				onDelete : function(event) {
+					$("#search").attr("disabled", "disabled");
+				}
+			}
+			
+});
+</script>
