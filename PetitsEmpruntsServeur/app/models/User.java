@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -41,14 +42,22 @@ public class User
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
-	
+	/**
+	 * get all the borrows concerning our user (owner or borrower).
+	 * @return List<Borrow>
+	 */
 	public List<Borrow> getBorrows()
 	{
-		List <Borrow> borrows = Borrow.all();
-		for(Borrow borrow : borrows)
+		List <Borrow> allBorrows = Borrow.all();
+		List <Borrow> toReturn = new ArrayList<Borrow>();
+		for(Borrow borrow : allBorrows)
 		{
-			
+			if(! borrow.getBorrower().equals(this))
+			{
+				if(! borrow.getExemplary().getOwner().equals(this))
+					toReturn.add(borrow);
+			}
 		}
-		return borrows ;
+		return toReturn ;
 	}
 }
