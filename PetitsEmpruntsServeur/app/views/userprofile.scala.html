@@ -1,4 +1,4 @@
-@(List[Borrow] borrows)
+@(borrows: List[Borrow])
 
 @main(session.get("nickname")) {
 	<h1>Bonjour <a href="@routes.UserProfile.index()">@session.get("nickname")</a></h1>

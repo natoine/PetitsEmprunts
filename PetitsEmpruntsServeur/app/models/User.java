@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.annotations.Entity;
@@ -11,6 +13,10 @@ public class User
 {
 	@Id
 	private ObjectId id;
+	
+	private String lastname;
+	
+	private String firstname;
 	
 	public ObjectId getId() {
 		return id;
@@ -35,9 +41,14 @@ public class User
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
-
-	private String lastname;
 	
-	private String firstname;
-
+	public List<Borrow> getBorrows()
+	{
+		List <Borrow> borrows = Borrow.all();
+		for(Borrow borrow : borrows)
+		{
+			
+		}
+		return borrows ;
+	}
 }
