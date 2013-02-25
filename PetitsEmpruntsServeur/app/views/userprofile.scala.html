@@ -1,6 +1,10 @@
-@()
+@(List[Borrow] borrows)
 
 @main(session.get("nickname")) {
-	<h1>Espace personnel</h1>
-	
+	<h1>Bonjour <a href="@routes.UserProfile.index()">@session.get("nickname")</a></h1>
+	@if(borrows.size()>0) {
+		<h2>Récapitulatif de vos emprunts :</h2>
+	} else {
+	<h2>Aucun emprunt en cours.</h2>
+	}
 }
