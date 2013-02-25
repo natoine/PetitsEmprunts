@@ -8,7 +8,5 @@
     Il y a actuellement @uas.size() utilisateur(s) inscrit(s), 
     @if(session.get("nickname") == null) {
     	<a href="@routes.Application.register()">cliquez ici pour vous inscrire</a>.
-    	} else {
-    		Bonjour <a href="@routes.UserProfile.index()"> @session.get("nickname") </a>
     	}
 }

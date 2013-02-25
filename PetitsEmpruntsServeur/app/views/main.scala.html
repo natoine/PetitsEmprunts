@@ -21,6 +21,7 @@
           					@if(session.get("nickname") == null) {
           						<li><a href="@routes.Application.login()"> Login </a></li>
           						} else {
+          							<li><a href="@routes.UserProfile.index()"> @session.get("nickname") </a></li>
           							<li><a href="@routes.Application.logout()"> Logout </a></li>
           							}
           					</ul>
