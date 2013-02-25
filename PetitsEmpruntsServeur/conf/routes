@@ -17,5 +17,9 @@ GET 	/users 						controllers.Application.userAccounts()
 POST 	/users 						controllers.Application.newUserAccount()
 GET		/user/:nickname				controllers.Application.seeUserAccount(nickname: String)
 
+#Admin
+POST	/searchuser					controllers.Application.searchUser()
+POST	/searchexemplary			controllers.Application.searchExemplary()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
