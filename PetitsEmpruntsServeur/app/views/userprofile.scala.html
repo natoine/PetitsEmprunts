@@ -6,7 +6,7 @@
 	<h2>Déclarer un nouvel emprunt : </h2>
 	<form>
 	<label>Qui ?</label>
-	<input type="text" name="borrower" />
+	<input type="text" name="borrower"/>
 	
 	<label>Quoi ?</label>
 	<input type="text" name="exemplary" />
@@ -16,6 +16,7 @@
 	<button class="btn-add-borrow"> Ajouter </button>
 	</form>
 	
+	<div class="hero-unit">
 	@if(borrows.size()>0) {
 		<h2>Récapitulatif de vos emprunts :</h2>
 		<ul>
@@ -31,4 +32,5 @@
 	} else {
 	<h2>Aucun emprunt en cours.</h2>
 	}
+	</div>
 }
