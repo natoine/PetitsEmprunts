@@ -1,6 +1,8 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -8,6 +10,8 @@ import play.data.validation.Constraints.Required;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+
+import controllers.MorphiaObject;
 
 
 @Entity("Borrow")
@@ -71,5 +75,13 @@ public class Borrow
 	{
 		if(closingDate == null) return false ;
 		else return true ;
+	}
+	
+	public static List<Borrow> all() {
+		if (MorphiaObject.datastore != null) {
+			return MorphiaObject.datastore.find(Borrow.class).asList();
+		} else {
+			return new ArrayList<Borrow>();
+		}
 	}
 }
