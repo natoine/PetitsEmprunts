@@ -2,6 +2,20 @@
 
 @main(session.get("nickname")) {
 	<h1>Bonjour <a href="@routes.UserProfile.index()">@session.get("nickname")</a></h1>
+	
+	<h2>Déclarer un nouvel emprunt : </h2>
+	<form>
+	<label>Qui ?</label>
+	<input type="text" name="borrower" />
+	
+	<label>Quoi ?</label>
+	<input type="text" name="exemplary" />
+	
+	<label>A qui ?</label>
+	<input type="text" name="owner" />
+	<button class="btn-add-borrow"> Ajouter </button>
+	</form>
+	
 	@if(borrows.size()>0) {
 		<h2>Récapitulatif de vos emprunts :</h2>
 		<ul>
