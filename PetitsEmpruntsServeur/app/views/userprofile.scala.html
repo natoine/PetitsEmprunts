@@ -4,6 +4,16 @@
 	<h1>Bonjour <a href="@routes.UserProfile.index()">@session.get("nickname")</a></h1>
 	@if(borrows.size()>0) {
 		<h2>Récapitulatif de vos emprunts :</h2>
+		<ul>
+		@for((borrow, i) <- borrows.zipWithIndex) {
+			@if(i%2 == 0) {
+				<li class="alt block">
+			} else {
+				<li class="block">
+			}
+			@borrow.getStartingDate() : @borrow.getBorrower().getNickname() a emprunté @borrow.getExemplary().getThing().getLabel() à @borrow.getExemplary().getOwner().getNickname()
+		}
+		</ul>
 	} else {
 	<h2>Aucun emprunt en cours.</h2>
 	}
