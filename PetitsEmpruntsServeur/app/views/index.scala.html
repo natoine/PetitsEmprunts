@@ -1,9 +1,14 @@
-@(message: String)
+@(uas: List[UserActive])
 
-@main(message) {
+@main("PEA") {
     <h1>Bienvenue sur Petits Emprunts entre Amis</h1>
     <h3>Qu'est ce que Petits Emprunts entre Amis ?</h3><br>
     ...<br>
     
-    Il y a actuellement X utilisateur(s) inscrit(s), <a href="#">cliquez ici pour vous inscrire</a>.
+    Il y a actuellement @uas.size() utilisateur(s) inscrit(s), 
+    @if(session.get("nickname") == null) {
+    	<a href="@routes.Application.register()">cliquez ici pour vous inscrire</a>.
+    	} else {
+    		Bonjour <a href="@routes.UserProfile.index()"> @session.get("nickname") </a>
+    	}
 }

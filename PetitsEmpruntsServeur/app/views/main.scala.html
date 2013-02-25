@@ -14,7 +14,18 @@
     	<div class="navbar navbar-inverse navbar-fixed-top">
       		<div class="navbar-inner">
         		<div class="container">
-          			<a class="brand" href="#">PEA</a>
+          			<a class="brand" href="@routes.Application.index()">PEA</a>
+          			<div class="nav-collapse collapse">
+          				<div class="navbar-form pull-right">
+          					<ul class="nav">
+          					@if(session.get("nickname") == null) {
+          						<li><a href="@routes.Application.login()"> Login </a></li>
+          						} else {
+          							<li><a href="@routes.Application.logout()"> Logout </a></li>
+          							}
+          					</ul>
+          				</div>
+          			</div>
         		</div>
       		</div>
     	</div>
