@@ -42,6 +42,12 @@ public class User
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
+	
+	public String getNickname()
+	{
+		return firstname + " " + lastname ;
+	}
+	
 	/**
 	 * get all the borrows concerning our user (owner or borrower).
 	 * @return List<Borrow>
