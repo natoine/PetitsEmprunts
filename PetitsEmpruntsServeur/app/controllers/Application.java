@@ -22,12 +22,13 @@ public class Application extends Controller
 	
 	public static Result index() throws Exception 
 	{
-		if(session("nickname") != null)
+		return ok(views.html.index.render("PEA"));
+		/*if(session("nickname") != null)
 		{
 			return redirect(routes.UserProfile.index());
 		}
 		else
-			return redirect(routes.Application.login());
+			return redirect(routes.Application.login());*/
 	}
 	
 	public static Result register()
