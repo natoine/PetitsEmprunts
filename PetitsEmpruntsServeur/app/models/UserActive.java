@@ -1,9 +1,7 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bson.types.ObjectId;
 
@@ -101,6 +99,11 @@ public class UserActive extends User
 		return MorphiaObject.datastore.find(UserActive.class).field("nickname").equal(nickname).get();
 	}
 	
+	public List<Exemplary> getPossessions()
+	{
+		return MorphiaObject.datastore.find(Exemplary.class).field("owner").equal(this).asList();
+	}
+
 	public static List<UserActive> allActive() {
 		if (MorphiaObject.datastore != null) {
 			return MorphiaObject.datastore.find(UserActive.class).asList();
