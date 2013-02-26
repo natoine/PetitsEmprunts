@@ -6,7 +6,7 @@
 	<h1>Bonjour <a href="@routes.UserProfile.index()">@session.get("nickname")</a></h1>
 	
 	<h2>Déclarer un nouvel emprunt : </h2>
-	@form(routes.Application.newBorrow()) {
+	@form(routes.UserProfile.newBorrow()) {
 
 	<input type="submit" value="Create">
 	}
