@@ -22,7 +22,7 @@ public class Application extends Controller
 	
 	public static Result index() throws Exception 
 	{
-		return ok(views.html.index.render(UserActive.all()));
+		return ok(views.html.index.render(UserActive.allActive()));
 	}
 	
 	public static Result register()
@@ -32,7 +32,7 @@ public class Application extends Controller
  
 	public static Result userAccounts() 
 	{
-		return ok(views.html.users.render(UserActive.all(), registrationForm));
+		return ok(views.html.users.render(UserActive.allActive(), registrationForm));
 	}
 	
 	public static Result seeUserAccount(String nickname)
@@ -71,7 +71,7 @@ public class Application extends Controller
 		if(filledForm.hasErrors()) 
 		{
 			Logger.error("There was an error in the registration form.");
-			return badRequest(views.html.users.render(UserActive.all(), filledForm));
+			return badRequest(views.html.users.render(UserActive.allActive(), filledForm));
 		} 
 		else 
 		{
@@ -89,7 +89,7 @@ public class Application extends Controller
 			}
 			catch(DuplicateKey exception)
 			{
-				return badRequest(views.html.users.render(UserActive.all(), filledForm));
+				return badRequest(views.html.users.render(UserActive.allActive(), filledForm));
 			}
 		}
 	}
@@ -123,5 +123,10 @@ public class Application extends Controller
             Logger.info("Connection of " + form.field("nickname").value());
             return redirect(routes.UserProfile.index());
         }
+	}
+	
+	public static Result newBorrow()
+	{
+		return redirect(routes.UserProfile.index());
 	}
 }

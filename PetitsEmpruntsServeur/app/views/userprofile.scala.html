@@ -1,20 +1,15 @@
-@(borrows: List[Borrow])
+@(borrows: List[Borrow], borrowForm: Form[Borrow])
+
+@import helper._
 
 @main(session.get("nickname")) {
 	<h1>Bonjour <a href="@routes.UserProfile.index()">@session.get("nickname")</a></h1>
 	
 	<h2>Déclarer un nouvel emprunt : </h2>
-	<form>
-	<label>Qui ?</label>
-	<input type="text" name="search-user-borrower" />
-	
-	<label>Quoi ?</label>
-	<input type="text" name="search-exemplary" />
-	
-	<label>A qui ?</label>
-	<input type="text" name="search-user-owner" />
-	<button class="btn-add-borrow"> Ajouter </button>
-	</form>
+	@form(routes.Application.newBorrow()) {
+
+	<input type="submit" value="Create">
+	}
 	
 	<div class="hero-unit">
 	@if(borrows.size()>0) {
