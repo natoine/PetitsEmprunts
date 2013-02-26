@@ -35,27 +35,3 @@
 
 	</div>
 }
-
-<script type="text/javascript">
-$(document).ready(function($){
-
-$('input[name^="searchTerminal-"]').tokenInput("/admin/search", {	
-				method : "POST",
-				queryParam : "filter",
-				propertyToSearch : "name",
-				noResultsText : "Pas de résultats.",
-				hintText : "Tapez le nom de la chambre",
-				searchingText : "Recherche...",
-				tokenLimit : 1,
-				animateDropdown : false,
-				onAdd : function(event) {
-					$("#search").removeAttr("disabled");
-				},
-				
-				onDelete : function(event) {
-					$("#search").attr("disabled", "disabled");
-				}
-			}
-			
-});
-</script>
