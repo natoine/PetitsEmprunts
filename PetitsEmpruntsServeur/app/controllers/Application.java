@@ -53,6 +53,17 @@ public class Application extends Controller
 		}
 	}
 	
+	public static Result seeUserPossession(String nickname)
+	{
+		UserActive user = UserActive.findByNickname(nickname);
+		if(user == null)
+			return redirect(routes.Application.index());
+		else
+		{
+			return ok(views.html.possessions.render(user.getPossessions()));
+		}
+	}
+	
 	public static Result newUserAccount() 
 	{
 		
