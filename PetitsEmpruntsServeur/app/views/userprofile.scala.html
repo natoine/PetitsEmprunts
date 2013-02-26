@@ -7,7 +7,17 @@
 	
 	<h2>Déclarer un nouvel emprunt : </h2>
 	@form(routes.UserProfile.newBorrow()) {
-
+		 @select(borrowForm("borrower.id"), 
+        		options(User.options()),
+        		'_default -> "--- Choose a user ---",
+                	'_label -> "Qui emprunte ?"
+        		)
+		@inputText(borrowForm("thing.label"), '_label -> "Quoi ?")
+		@select(borrowForm("owner.id"), 
+        		options(User.options()),
+        		'_default -> "--- Choose a user ---",
+                	'_label -> "A qui ?"
+        		)
 	<input type="submit" value="Create">
 	}
 	
