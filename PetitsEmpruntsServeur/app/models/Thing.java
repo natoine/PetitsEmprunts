@@ -7,6 +7,8 @@ import play.data.validation.Constraints.Required;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 
+import controllers.MorphiaObject;
+
 @Entity("Thing")
 public class Thing 
 {
@@ -42,5 +44,14 @@ public class Thing
 		this.description = description;
 	}
 	
+	public static void create(Thing thing) 
+	{
+		MorphiaObject.morphia.map(Thing.class);
+		MorphiaObject.datastore.save(thing);
+	}
 	
+	public static Thing findByLabel(String label)
+	{
+		return MorphiaObject.datastore.find(Thing.class).field("label").equal(label).get();
+	}
 }

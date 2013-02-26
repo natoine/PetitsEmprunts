@@ -62,6 +62,7 @@ public class User
 		List <Borrow> toReturn = new ArrayList<Borrow>();
 		for(Borrow borrow : allBorrows)
 		{
+			System.out.println("[User.getBorrows] borrow : " + borrow.getBorrower().getNickname() + " " + borrow.getStartingDate() + " " + borrow.getExemplary().getThing().getLabel());
 			if(! borrow.getBorrower().equals(this))
 			{
 				if(! borrow.getExemplary().getOwner().equals(this))
@@ -86,5 +87,10 @@ public class User
 		} else {
 			return new ArrayList<User>();
 		}
+	}
+	
+	public static User findById(String id)
+	{
+		return MorphiaObject.datastore.find(User.class).field("_id").equal(new ObjectId(id)).get();
 	}
 }

@@ -84,4 +84,11 @@ public class Borrow
 			return new ArrayList<Borrow>();
 		}
 	}
+	
+	public static void create(Borrow borrow) 
+	{
+		borrow.setStartingDate(new Date());
+		MorphiaObject.morphia.map(Borrow.class);
+		MorphiaObject.datastore.save(borrow);
+	}
 }
