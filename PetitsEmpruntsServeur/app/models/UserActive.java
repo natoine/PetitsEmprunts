@@ -1,9 +1,7 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bson.types.ObjectId;
 
@@ -82,23 +80,6 @@ public class UserActive extends User
 		return user.getId().equals(this.getId());
 	}
 	
-	public static List<UserActive> all() {
-		if (MorphiaObject.datastore != null) {
-			return MorphiaObject.datastore.find(UserActive.class).asList();
-		} else {
-			return new ArrayList<UserActive>();
-		}
-	}
-
-	public static Map<String,String> options() {
-		List<UserActive> uas = all();
-		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-		for(UserActive ua: uas) {
-			options.put(ua.getId().toString(), ua.nickname);
-		}
-		return options;
-	}
-	
 	public static void create(UserActive userActive) {
 		MorphiaObject.datastore.save(userActive);
 	}
@@ -121,5 +102,13 @@ public class UserActive extends User
 	public List<Exemplary> getPossessions()
 	{
 		return MorphiaObject.datastore.find(Exemplary.class).field("owner").equal(this).asList();
+	}
+
+	public static List<UserActive> allActive() {
+		if (MorphiaObject.datastore != null) {
+			return MorphiaObject.datastore.find(UserActive.class).asList();
+		} else {
+			return new ArrayList<UserActive>();
+		}
 	}
 }

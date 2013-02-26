@@ -1,12 +1,16 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+
+import controllers.MorphiaObject;
 
 
 @Entity("User")
@@ -65,5 +69,22 @@ public class User
 			}
 		}
 		return toReturn ;
+	}
+	
+	public static Map<String,String> options() {
+		List<User> uas = all();
+		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+		for(User ua: uas) {
+			options.put(ua.id.toString(), ua.getNickname());
+		}
+		return options;
+	}
+	
+	public static List<User> all() {
+		if (MorphiaObject.datastore != null) {
+			return MorphiaObject.datastore.find(User.class).asList();
+		} else {
+			return new ArrayList<User>();
+		}
 	}
 }
