@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Borrow;
+import models.Exemplary;
 import models.UserActive;
 import play.data.Form;
 import play.mvc.Controller;
@@ -10,6 +11,7 @@ import play.mvc.Security;
 @Security.Authenticated(Secured.class)
 public class UserProfile extends Controller{
 	static Form<Borrow> borrowForm = form(Borrow.class);
+	static Form<Exemplary> exemplaryForm = form(Exemplary.class);
 	
 	public static Result index()
 	{
@@ -42,12 +44,17 @@ public class UserProfile extends Controller{
 			return redirect(routes.Application.index());
 		else
 		{
-			return ok(views.html.possessions.render(user.getPossessions()));
+			return ok(views.html.possessions.render(user.getPossessions(), exemplaryForm));
 		}
 	}
 	
 	
 	public static Result newBorrow()
+	{
+		return redirect(routes.UserProfile.index());
+	}
+	
+	public static Result newPossession()
 	{
 		return redirect(routes.UserProfile.index());
 	}
