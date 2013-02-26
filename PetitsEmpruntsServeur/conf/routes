@@ -16,7 +16,7 @@ GET 	/myProfile					controllers.UserProfile.index()
 GET 	/users 						controllers.Application.userAccounts()
 POST 	/users 						controllers.Application.newUserAccount()
 GET		/user/:nickname				controllers.UserProfile.seeUserAccount(nickname: String)
-GET		/user/:nickname/possessions	controllers.Application.seeUserPossession(nickname: String)
+GET		/user/:nickname/possessions	controllers.UserProfile.seeUserPossession(nickname: String)
 
 
 #Borrows
