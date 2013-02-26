@@ -1,5 +1,10 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bson.types.ObjectId;
 
 import play.data.validation.Constraints.Required;
@@ -48,6 +53,24 @@ public class Thing
 	{
 		MorphiaObject.morphia.map(Thing.class);
 		MorphiaObject.datastore.save(thing);
+	}
+
+	public static Map<String,String> options()
+	{
+		List<Thing> allThings = all();
+		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+		for(Thing thing: allThings) {
+			options.put(thing.id.toString(), thing.getLabel());
+		}
+		return options;
+	}
+	
+	public static List<Thing> all() {
+		if (MorphiaObject.datastore != null) {
+			return MorphiaObject.datastore.find(Thing.class).asList();
+		} else {
+			return new ArrayList<Thing>();
+		}
 	}
 	
 	public static Thing findByLabel(String label)

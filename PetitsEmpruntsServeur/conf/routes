@@ -22,5 +22,8 @@ GET		/user/:nickname/possessions	controllers.UserProfile.seeUserPossession(nickn
 #Borrows
 POST	/newBorrow					controllers.UserProfile.newBorrow()
 
+#Possessions
+POST	/newPossession				controllers.UserProfile.newPossession()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

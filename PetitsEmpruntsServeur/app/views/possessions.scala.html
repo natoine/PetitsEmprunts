@@ -1,5 +1,11 @@
-@(exemplaries: List[Exemplary])
+@(exemplaries: List[Exemplary], exemplaryForm: Form[Exemplary])
+
+@import helper._
 
 @main("Vos Possessions") {
 	<h1> Mes Possessions </h1>
+	@form(routes.UserProfile.newPossession()) {
+		@select(exemplaryForm("thing.id"), options(Thing.options()), '_default -> "--- Choose a thing ---", '_label -> "Votre possession :")
+		<input type="submit" value="Ajouter">
+	}
 }
