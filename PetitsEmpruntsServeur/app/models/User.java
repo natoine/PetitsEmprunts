@@ -109,4 +109,10 @@ public class User
 	{
 		return MorphiaObject.datastore.find(User.class).field("_id").equal(new ObjectId(id)).get();
 	}
+	
+	public List<Exemplary> getPossessions()
+	{
+		return MorphiaObject.datastore.find(Exemplary.class).field("owner.id").equal(this.id).asList();
+		//return Exemplary.all();
+	}
 }

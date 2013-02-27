@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.types.ObjectId;
 
 import play.data.validation.Constraints.Required;
@@ -54,5 +57,13 @@ public class Exemplary
 	public static Exemplary findByThingAndOwner(Thing thing, User owner)
 	{
 		return MorphiaObject.datastore.find(Exemplary.class).field("thing").equal(thing).field("owner").equal(owner).get();
+	}
+	
+	public static List<Exemplary> all() {
+		if (MorphiaObject.datastore != null) {
+			return MorphiaObject.datastore.find(Exemplary.class).asList();
+		} else {
+			return new ArrayList<Exemplary>();
+		}
 	}
 }
