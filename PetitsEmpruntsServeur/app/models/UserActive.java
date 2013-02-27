@@ -98,11 +98,6 @@ public class UserActive extends User
 	{
 		return MorphiaObject.datastore.find(UserActive.class).field("nickname").equal(nickname).get();
 	}
-	
-	public List<Exemplary> getPossessions()
-	{
-		return MorphiaObject.datastore.find(Exemplary.class).field("owner").equal(this).asList();
-	}
 
 	public static List<UserActive> allActive() {
 		if (MorphiaObject.datastore != null) {
