@@ -6,7 +6,6 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import play.Logger;
-import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 
 import com.google.code.morphia.annotations.Entity;
@@ -20,10 +19,7 @@ public class UserActive extends User
 {
 	@Required @Indexed(unique = true)
 	private String nickname;
-	
-	@Email @Required @Indexed(unique = true)
-	private String email;
-	
+
 	@Required
 	private String hashedPassword;
 	
@@ -33,14 +29,6 @@ public class UserActive extends User
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getHashedPassword() {

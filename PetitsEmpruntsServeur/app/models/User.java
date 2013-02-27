@@ -7,8 +7,12 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 
+import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.Required;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
 
 import controllers.MorphiaObject;
 
@@ -22,6 +26,10 @@ public class User
 	private String lastname;
 	
 	private String firstname;
+	
+	@Email @Required @Indexed(unique = true)
+	private String email;
+	
 	
 	public ObjectId getId() {
 		return id;
@@ -45,6 +53,14 @@ public class User
 
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	public String getNickname()
