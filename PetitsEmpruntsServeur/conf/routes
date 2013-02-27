@@ -17,7 +17,8 @@ GET 	/users 						controllers.Application.userAccounts()
 POST 	/users 						controllers.Application.newUserAccount()
 GET		/user/:nickname				controllers.UserProfile.seeUserAccount(nickname: String)
 GET		/user/:nickname/possessions	controllers.UserProfile.seeUserPossession(nickname: String)
-
+GET		/users/nonactive			controllers.UserProfile.nonactiveuserDeclaration()
+POST	/users/nonactive			controllers.UserProfile.newNonActiveUserAccount()
 
 #Borrows
 POST	/newBorrow					controllers.UserProfile.newBorrow()
