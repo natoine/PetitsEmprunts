@@ -1,13 +1,21 @@
 package controllers;
 
+import java.util.List;
 import java.util.Map;
+
+import com.mongodb.MongoException.DuplicateKey;
 
 import models.Borrow;
 import models.Exemplary;
+import models.NonActiveUserRegistrationForm;
+import models.RegistrationForm;
 import models.Thing;
 import models.User;
 import models.UserActive;
+import models.UserNonActive;
+import play.Logger;
 import play.data.Form;
+import play.data.validation.ValidationError;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -16,6 +24,7 @@ import play.mvc.Security;
 public class UserProfile extends Controller{
 	static Form<Borrow> borrowForm = form(Borrow.class);
 	static Form<Exemplary> exemplaryForm = form(Exemplary.class);
+	static Form<NonActiveUserRegistrationForm> nonActiveUserRegistrationForm = form(NonActiveUserRegistrationForm.class);
 	
 	public static Result index()
 	{
@@ -112,4 +121,46 @@ public class UserProfile extends Controller{
 		return redirect(routes.UserProfile.seeUserPossession(session("nickname")));
 	}
 	
+	public static Result nonactiveuserDeclaration()
+	{
+		return ok(views.html.registernonactiveuser.render(nonActiveUserRegistrationForm));
+	}
+	
+	public static Result newNonActiveUserAccount()
+	{
+		
+		Form<NonActiveUserRegistrationForm> filledForm = nonActiveUserRegistrationForm.bindFromRequest();
+		
+		Map<String, List<ValidationError>> errors = filledForm.errors();
+		
+		for(String key : errors.keySet())
+		{
+			for(ValidationError error : errors.get(key))
+			{
+				System.out.println("error (" + key + ") : " + error.message());
+			}
+		}
+		
+		if(filledForm.hasErrors()) 
+		{
+			Logger.error("There was an error in the registration form.");
+			return badRequest(views.html.registernonactiveuser.render(filledForm));
+		} 
+		else 
+		{
+			try
+			{
+				UserNonActive user = new UserNonActive();
+				user.setEmail(filledForm.field("email").value());
+				user.setFirstname(filledForm.field("firstname").value());
+				user.setLastname(filledForm.field("lastname").value());
+				UserNonActive.create(user);
+				return redirect(routes.Application.index());	
+			}
+			catch(DuplicateKey exception)
+			{
+				return badRequest(views.html.registernonactiveuser.render(filledForm));
+			}
+		}
+	}
 }
