@@ -9,6 +9,7 @@ import play.data.validation.Constraints.Required;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Reference;
 
 import controllers.MorphiaObject;
 
@@ -18,10 +19,10 @@ public class Exemplary
 	@Id
 	private ObjectId id;
 	
-	@Required
+	@Required @Reference
 	private Thing thing;
 	
-	@Required
+	@Required @Reference
 	private User owner;
 
 	public ObjectId getId() {
