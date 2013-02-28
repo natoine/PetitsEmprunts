@@ -1,5 +1,7 @@
 package models;
 
+import play.data.validation.Constraints.Email;
+
 public class RegistrationForm 
 {
 
@@ -8,6 +10,7 @@ public class RegistrationForm
 	public String passwordRepeat;
 	public String firstname;
 	public String lastname;
+	@Email
 	public String email;
 	
 	public String validate()

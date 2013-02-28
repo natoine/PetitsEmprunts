@@ -29,12 +29,6 @@ public class Application extends Controller
 	{
 		return ok(views.html.register.render(registrationForm));
 	}
- 
-	public static Result userAccounts() 
-	{
-		return ok(views.html.users.render(UserActive.allActive(), registrationForm));
-	}
-	
 	
 	public static Result newUserAccount() 
 	{
@@ -54,7 +48,7 @@ public class Application extends Controller
 		if(filledForm.hasErrors()) 
 		{
 			Logger.error("There was an error in the registration form.");
-			return badRequest(views.html.users.render(UserActive.allActive(), filledForm));
+			return badRequest(views.html.register.render(filledForm));
 		} 
 		else 
 		{
@@ -72,7 +66,7 @@ public class Application extends Controller
 			}
 			catch(DuplicateKey exception)
 			{
-				return badRequest(views.html.users.render(UserActive.allActive(), filledForm));
+				return badRequest(views.html.register.render(filledForm));
 			}
 		}
 	}

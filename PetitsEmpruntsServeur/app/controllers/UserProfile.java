@@ -201,4 +201,10 @@ public class UserProfile extends Controller{
 			}
 		}
 	}
+	
+	public static Result userAccounts() 
+	{
+		return ok(views.html.users.render(UserActive.allActive()));
+	}
+	
 }

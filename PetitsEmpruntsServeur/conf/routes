@@ -13,7 +13,7 @@ GET 	/register					controllers.Application.register()
 GET 	/myProfile					controllers.UserProfile.index()
 
 #Users
-GET 	/users 						controllers.Application.userAccounts()
+GET 	/users 						controllers.UserProfile.userAccounts()
 POST 	/users 						controllers.Application.newUserAccount()
 GET		/user/:nickname				controllers.UserProfile.seeUserAccount(nickname: String)
 GET		/user/:nickname/possessions	controllers.UserProfile.seeUserPossession(nickname: String)

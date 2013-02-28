@@ -1,11 +1,14 @@
 package models;
 
+import play.data.validation.Constraints.Email;
+
 public class NonActiveUserRegistrationForm 
 {
 
 	public String nickname;
 	public String firstname;
 	public String lastname;
+	@Email
 	public String email;
 	
 	public String validate()
