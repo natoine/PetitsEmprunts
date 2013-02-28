@@ -112,7 +112,7 @@ public class User
 	
 	public List<Exemplary> getPossessions()
 	{
-		return MorphiaObject.datastore.find(Exemplary.class).field("owner.id").equal(this.id).asList();
+		return MorphiaObject.datastore.find(Exemplary.class).field("owner").equal(this).asList();
 		//return Exemplary.all();
 	}
 }
