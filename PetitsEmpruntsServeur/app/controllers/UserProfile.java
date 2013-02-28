@@ -73,39 +73,45 @@ public class UserProfile extends Controller{
 		
 		User borrower = User.findById(borrowerId);
 		User owner = User.findById(ownerId);
-		Thing thing = Thing.findByLabel(thingLabel);
-		Exemplary exemplary ;
-		//La chose n'existe pas , il faut la créer
-		if(thing == null)
+		String userActiveNickname = session("nickname");
+		UserActive currentUser = UserActive.findByNickname(userActiveNickname);
+		if(userActiveNickname.equals(owner.getNickname()) || userActiveNickname.equals(borrower.getNickname()))
 		{
-			thing = new Thing();
-			thing.setLabel(thingLabel);
-			Thing.create(thing);
-			//System.out.println("Thing.id : " + thing.getId());
-			//il va aussi falloir créer l'exemplaire
-			exemplary = new Exemplary();
-			exemplary.setOwner(owner);
-			exemplary.setThing(thing);
-			Exemplary.create(exemplary);
-		}
-		else
-		{
-			//il faut trouver l'exemplaire correspondant
-			exemplary = Exemplary.findByThingAndOwner(thing, owner);
-			//si thing existe mais est possédé par quelqu'un d'autre créer un nouvel exemplaire
-			if(exemplary == null) 
+			Thing thing = Thing.findByLabel(thingLabel);
+			Exemplary exemplary ;
+			//La chose n'existe pas , il faut la créer
+			if(thing == null)
 			{
+				thing = new Thing();
+				thing.setLabel(thingLabel);
+				Thing.create(thing);
+				//System.out.println("Thing.id : " + thing.getId());
+				//il va aussi falloir créer l'exemplaire
 				exemplary = new Exemplary();
 				exemplary.setOwner(owner);
 				exemplary.setThing(thing);
 				Exemplary.create(exemplary);
 			}
+			else
+			{
+				//il faut trouver l'exemplaire correspondant
+				exemplary = Exemplary.findByThingAndOwner(thing, owner);
+				//si thing existe mais est possédé par quelqu'un d'autre créer un nouvel exemplaire
+				if(exemplary == null) 
+				{
+					exemplary = new Exemplary();
+					exemplary.setOwner(owner);
+					exemplary.setThing(thing);
+					Exemplary.create(exemplary);
+				}
+			}
+			Borrow borrow = new Borrow();
+			borrow.setBorrower(borrower);
+			borrow.setExemplary(exemplary);
+			Borrow.create(borrow);
+			return redirect(routes.UserProfile.index());
 		}
-		Borrow borrow = new Borrow();
-		borrow.setBorrower(borrower);
-		borrow.setExemplary(exemplary);
-		Borrow.create(borrow);
-		return redirect(routes.UserProfile.index());
+		else return badRequest(views.html.userprofile.render(currentUser.getBorrows(), borrowForm));
 	}
 	
 	public static Result closeBorrow()

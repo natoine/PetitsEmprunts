@@ -78,12 +78,8 @@ public class User
 		List <Borrow> toReturn = new ArrayList<Borrow>();
 		for(Borrow borrow : allBorrows)
 		{
-			System.out.println("[User.getBorrows] borrow : " + borrow.getBorrower().getNickname() + " " + borrow.getStartingDate() + " " + borrow.getExemplary().getThing().getLabel());
-			if(! borrow.getBorrower().equals(this))
-			{
-				if(! borrow.getExemplary().getOwner().equals(this))
-					toReturn.add(borrow);
-			}
+			if(borrow.getBorrower().getNickname().equals(this.getNickname())) toReturn.add(borrow);
+			else if(borrow.getExemplary().getOwner().getNickname().equals(this.getNickname())) toReturn.add(borrow);
 		}
 		return toReturn ;
 	}
