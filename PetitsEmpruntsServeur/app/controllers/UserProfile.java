@@ -109,10 +109,17 @@ public class UserProfile extends Controller{
 	public static Result newPossession()
 	{
 		Map<String, String[]> requestData = request().body().asFormUrlEncoded();
-		String thingId = requestData.get("thing.id")[0];
-		Thing thing = Thing.findById(thingId);
+		String thingLabel = requestData.get("thing.label")[0];
+		Thing thing = Thing.findByLabel(thingLabel);
 		UserActive owner = UserActive.findByNickname(session("nickname"));
 		
+		
+		if(thing == null)
+		{
+			thing = new Thing();
+			thing.setLabel(thingLabel);
+			Thing.create(thing);
+		}
 		Exemplary exemplary = new Exemplary();
 		exemplary.setOwner(owner);
 		exemplary.setThing(thing);

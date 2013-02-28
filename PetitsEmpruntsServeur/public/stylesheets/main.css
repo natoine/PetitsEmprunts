@@ -3,3 +3,13 @@ body {
     padding-top: 60px;
 }
 
+#footer
+{
+	height: 60px;
+}
+
+#footer 
+{
+	background-color: #999;
+}
+
