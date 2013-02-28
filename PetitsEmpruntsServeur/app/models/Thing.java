@@ -77,4 +77,9 @@ public class Thing
 	{
 		return MorphiaObject.datastore.find(Thing.class).field("label").equal(label).get();
 	}
+	
+	public static Thing findById(String id)
+	{
+		return MorphiaObject.datastore.find(Thing.class).field("id").equal(new ObjectId(id)).get();
+	}
 }

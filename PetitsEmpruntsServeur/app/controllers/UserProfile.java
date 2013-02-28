@@ -108,7 +108,17 @@ public class UserProfile extends Controller{
 	
 	public static Result newPossession()
 	{
-		return redirect(routes.UserProfile.index());
+		Map<String, String[]> requestData = request().body().asFormUrlEncoded();
+		String thingId = requestData.get("thing.id")[0];
+		Thing thing = Thing.findById(thingId);
+		UserActive owner = UserActive.findByNickname(session("nickname"));
+		
+		Exemplary exemplary = new Exemplary();
+		exemplary.setOwner(owner);
+		exemplary.setThing(thing);
+		Exemplary.create(exemplary);
+		
+		return redirect(routes.UserProfile.seeUserPossession(session("nickname")));
 	}
 	
 	public static Result nonactiveuserDeclaration()
