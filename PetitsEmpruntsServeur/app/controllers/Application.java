@@ -37,6 +37,11 @@ public class Application extends Controller
 		
 		Map<String, List<ValidationError>> errors = filledForm.errors();
 		
+		if(! filledForm.field("password").value().equals(filledForm.field("passwordRepeat").value()))
+		{
+			filledForm.reject("passwords don't match");
+		}
+			
 		for(String key : errors.keySet())
 		{
 			for(ValidationError error : errors.get(key))
