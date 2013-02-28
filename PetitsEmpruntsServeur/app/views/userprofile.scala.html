@@ -34,6 +34,11 @@
 				<li class="block">
 			}
 			@borrow.getStartingDate() : @borrow.getBorrower().getNickname() a emprunté @borrow.getExemplary().getThing().getLabel() à @borrow.getExemplary().getOwner().getNickname()
+			@if(borrow.getClosingDate() == null) {
+				<button class="btn-close-borrow" id="btn-close-borrow-@borrow.getId()">Close !</button>
+			} else {
+				rendu le @borrow.getClosingDate()		
+			}
 		}
 		</ul>
 	} else {
@@ -42,3 +47,33 @@
 
 	</div>
 }
+
+<script type="text/javascript">
+$(document).ready(function($){
+
+        $("body").ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
+            alert("ERROR : " + thrownError);
+          //  location.reload();
+        });
+
+        $close = $(".btn-close-borrow");
+
+	$close.click(function(event) {
+		$this = $(this);
+            	var idBorrow = $this.attr("id").substring(17);
+		alert("clicked on a close btn! : " + idBorrow);
+		$.ajax({
+	                type: 'POST',
+	                url: "@routes.UserProfile.closeBorrow()",
+			contentType: "application/json; charset=UTF-8",
+         		data: JSON.stringify({"idBorrow":idBorrow }),
+                	success: function(){
+                    		alert("emprunt terminé");
+				location.reload();
+                			}
+            		})
+
+
+	})
+});
+</script>

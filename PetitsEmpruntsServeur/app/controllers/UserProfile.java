@@ -1,14 +1,16 @@
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.jackson.JsonNode;
 
 import com.mongodb.MongoException.DuplicateKey;
 
 import models.Borrow;
 import models.Exemplary;
 import models.NonActiveUserRegistrationForm;
-import models.RegistrationForm;
 import models.Thing;
 import models.User;
 import models.UserActive;
@@ -104,6 +106,29 @@ public class UserProfile extends Controller{
 		borrow.setExemplary(exemplary);
 		Borrow.create(borrow);
 		return redirect(routes.UserProfile.index());
+	}
+	
+	public static Result closeBorrow()
+	{
+		//Récupération de l'id de l'emprunt
+		JsonNode json = request().body().asJson();
+		String borrowId = json.get("idBorrow").asText();
+		//récupération de l'emprunt
+		Borrow borrow = Borrow.findById(borrowId);
+		System.out.println("ID true Borrow :" + borrow.getId());
+		if(borrow != null)
+		{
+			UserActive user = UserActive.findByNickname(session("nickname"));
+			//si l'utilisateur est le propriétaire de l'objet emprunté, on va le clôturer
+			if(borrow.getExemplary().getOwner().getNickname().equals(user.getNickname()))
+			{
+				borrow.setClosingDate(new Date());
+				MorphiaObject.datastore.save(borrow);
+				System.out.println("id borrow after save : " + borrow.getId());
+				return ok();
+			}
+		}
+		return badRequest();
 	}
 	
 	public static Result newPossession()

@@ -67,4 +67,9 @@ public class Exemplary
 			return new ArrayList<Exemplary>();
 		}
 	}
+	
+	public static Exemplary findById(String id)
+	{
+		return MorphiaObject.datastore.find(Exemplary.class).field("_id").equal(new ObjectId(id)).get();
+	}
 }

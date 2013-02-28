@@ -92,4 +92,16 @@ public class Borrow
 		MorphiaObject.morphia.map(Borrow.class);
 		MorphiaObject.datastore.save(borrow);
 	}
+	
+	public boolean isConcernedByThisBorrow(User user)
+	{
+		if(this.borrower.equals(user)) return true ;
+		if(this.exemplary.getOwner().equals(user)) return true ;
+		return false ;
+	}
+	
+	public static Borrow findById(String id)
+	{
+		return MorphiaObject.datastore.find(Borrow.class).field("_id").equal(new ObjectId(id)).get();
+	}
 }

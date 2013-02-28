@@ -22,6 +22,7 @@ POST	/users/nonactive			controllers.UserProfile.newNonActiveUserAccount()
 
 #Borrows
 POST	/newBorrow					controllers.UserProfile.newBorrow()
+POST	/closeBorrow					controllers.UserProfile.closeBorrow()
 
 #Possessions
 POST	/newPossession				controllers.UserProfile.newPossession()
