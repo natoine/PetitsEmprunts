@@ -1,77 +1,346 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import models.security.Roles;
+import models.wrappers.MorphiaObject;
 
 import org.bson.types.ObjectId;
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 
-import controllers.MorphiaObject;
+import controllers.util.Secured;
 
-
-@Entity("User")
-public class User 
+/**
+ * Classe représentant un utilisateur enregistré
+ * @author xandar
+ *
+ */
+@Entity
+public class User implements Subject
 {
 	@Id
 	private ObjectId id;
 	
-	private String lastname;
+	/**
+	 * Login
+	 */
+	@Indexed(unique = true) @Required 
+	private String nickname ;
 	
-	private String firstname;
+	/**
+	 * Prénom
+	 */
+	private String firstname ;
 	
+	/**
+	 * Nom
+	 */
+	private String lastname ;
+	
+	/**
+	 * Email
+	 */
 	@Email @Required @Indexed(unique = true)
-	private String email;
+	private String email ;
 	
+	/**
+	 * Mot de passe hashé
+	 */
+	@Required
+	private String hashedPassword;
 	
-	public ObjectId getId() {
+	/**
+	 * Date de création de l'utilisateur
+	 */
+	private Date creationDate;
+	
+	/**
+	 * Liste des roles possédés par l'utilisateur
+	 */
+	private List<Roles> roles;
+
+	public User()
+	{
+		this.roles = new ArrayList<Roles>();
+		this.roles.add(Roles.User);
+	}
+	
+	public ObjectId getId() 
+	{
 		return id;
 	}
 
-	public void setId(ObjectId id) {
+	public void setId(ObjectId id) 
+	{
 		this.id = id;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getNickname() 
+	{
+		return nickname;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setNickname(String nickname) 
+	{
+		this.nickname = nickname;
 	}
 
-	public String getFirstname() {
+	public String getFirstname() 
+	{
 		return firstname;
 	}
 
-	public void setFirstname(String firstname) {
+	public void setFirstname(String firstname) 
+	{
 		this.firstname = firstname;
 	}
-	
-	public String getEmail() {
+
+	public String getLastname() 
+	{
+		return lastname;
+	}
+
+	public void setLastname(String lastname) 
+	{
+		this.lastname = lastname;
+	}
+
+	public String getEmail() 
+	{
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email) 
+	{
 		this.email = email;
 	}
-	
-	public String getNickname()
+
+	/**
+	 * Renvoi la liste de tous les utilisateurs enregistrés
+	 * @return
+	 */
+	public static List<User> all() 
 	{
-		return firstname + " " + lastname ;
+		if (MorphiaObject.datastore != null) 
+		{
+			return MorphiaObject.datastore.find(User.class).asList();
+		} 
+		else 
+		{
+			return new ArrayList<User>();
+		}
+	}
+
+	/**
+	 * wtf ?
+	 * @return
+	 */
+	public static Map<String,String> options() 
+	{
+		List<User> uas = all();
+		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
+		for(User ua: uas) 
+		{
+			options.put(ua.id.toString(), ua.nickname);
+		}
+		return options;
 	}
 	
 	/**
-	 * get all the borrows concerning our user (owner or borrower).
-	 * @return List<Borrow>
+	 * Enregistre en base de données l'utilisateur passé en paramètre
+	 * @param userAccount
 	 */
+	public static void create(User userAccount) 
+	{
+		MorphiaObject.datastore.save(userAccount);
+	}
+	
+	/**
+	 * Met à jour dans la BDD l'utilisateur passé en paramètre
+	 * @param userAccount
+	 */
+	public static void update(User userAccount)
+	{
+		create(userAccount);
+	}
+
+	/**
+	 * Supprime de la BDD l'utilisateur passé en paramètre
+	 * @param idToDelete
+	 */
+	public static void delete(String idToDelete) 
+	{
+		User toDelete = MorphiaObject.datastore.find(User.class).field("_id").equal(new ObjectId(idToDelete)).get();
+		if (toDelete != null) 
+		{
+			MorphiaObject.datastore.delete(toDelete);
+		} 
+	}
+	
+	/**
+	 * Récupère dans la BDD l'utilisateur dont le nickname a été passé en paramètre
+	 * @param nickname
+	 * @return
+	 */
+	public static User findByNickname(String nickname)
+	{
+		return MorphiaObject.datastore.find(User.class).field("nickname").equal(nickname).get();
+	}
+	
+	/**
+	 * Récupère dans la BDD l'utilisateur dont l'identifiant a été passé en paramètre
+	 * @param id
+	 * @return
+	 */
+	public static User findById(String id)
+	{
+		return MorphiaObject.datastore.find(User.class).field("_id").equal(new ObjectId(id)).get();
+	}
+	
+	/**
+	 * Récupère dans la BDD l'utilisateur dont l'identifiant a été passé en paramètre
+	 * @param id
+	 * @return
+	 */
+	public static User findById(ObjectId id)
+	{
+		return MorphiaObject.datastore.find(User.class).field("_id").equal(id).get();
+	}
+
+	public String getHashedPassword() 
+	{
+		return hashedPassword;
+	}
+
+	public void setHashedPassword(String hashedPassword) 
+	{
+		this.hashedPassword = hashedPassword;
+	}
+	
+	/**
+	 * Appelé lors du login de l'utilisateur. Vérifie que le mot de passe donné est bon.
+	 * @param nickname
+	 * @param password
+	 * @return
+	 */
+	public static User authenticate(String nickname, String password)
+	{
+		User user = MorphiaObject.datastore.find(User.class).field("nickname").equal(nickname).get();
+		String hashPassword = Secured.hash(password);
+		
+		if(user != null && hashPassword != null)
+		{
+			if(user.getHashedPassword().equals(hashPassword))
+			{
+				return user;
+			}
+			else
+				return null;
+		}
+		else
+			return null;
+	}
+	
+	/**
+	 * Récupère l'utilisateur dans la base de données dont le mail est celui passé en paramètre
+	 * @param mail
+	 * @return
+	 */
+	public static User findByMail(String mail)
+	{
+		return MorphiaObject.datastore.find(User.class).field("email").equal(mail).get();
+	}
+	
+	/**
+	 * Aucune idée d'a quoi ça sert
+	 * @return
+	 */
+	public String validate()
+	{
+		return "ok";
+	}
+	
+	/**
+	 * Renvoi vrai si l'utilisateur passé en paramètre est identique, faux sinon
+	 * @param user
+	 * @return
+	 */
+	public boolean isSameUser(User user)
+	{
+		return user.getId().equals(this.getId());
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	/**
+	 * Plugin DeadBolt. Renvoi le champ qui sert à vérifier qu'un utilisateur est connecté.
+	 */
+	@Override
+	public String getIdentifier() 
+	{
+		return this.nickname;
+	}
+
+	/**
+	 * Renvoi la liste des permissions de l'utilisateur
+	 */
+	@Override
+	public List<? extends Permission> getPermissions() 
+	{
+		// on renvoi une liste vide car pour l'instant les permissions ne nous intéressent pas
+		return new ArrayList<Permission>(); 
+	}
+
+	/**
+	 * Renvoi la liste des roles de l'utilisateur
+	 */
+	@Override
+	public List<? extends Role> getRoles() 
+	{
+		return this.roles;
+	}
+	
+	public void setRoles(List<Roles> roles)
+	{
+		this.roles = roles;
+	}
+	
+	/**
+	 * Ajoute un role a la liste des roles de l'utilisateur
+	 * @param role
+	 */
+	public void addRole(Roles role)
+	{
+		if(!this.roles.contains(role))
+			this.roles.add(role);
+	}
+	
+	public List<Exemplary> getPossessions()
+	{
+		return MorphiaObject.datastore.find(Exemplary.class).field("owner").equal(this).asList();
+		//return Exemplary.all();
+	}
+	
 	public List<Borrow> getBorrows()
 	{
 		List <Borrow> allBorrows = Borrow.all();
@@ -82,33 +351,5 @@ public class User
 			else if(borrow.getExemplary().getOwner().getNickname().equals(this.getNickname())) toReturn.add(borrow);
 		}
 		return toReturn ;
-	}
-	
-	public static Map<String,String> options() {
-		List<User> uas = all();
-		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-		for(User ua: uas) {
-			options.put(ua.id.toString(), ua.getNickname());
-		}
-		return options;
-	}
-	
-	public static List<User> all() {
-		if (MorphiaObject.datastore != null) {
-			return MorphiaObject.datastore.find(User.class).asList();
-		} else {
-			return new ArrayList<User>();
-		}
-	}
-	
-	public static User findById(String id)
-	{
-		return MorphiaObject.datastore.find(User.class).field("_id").equal(new ObjectId(id)).get();
-	}
-	
-	public List<Exemplary> getPossessions()
-	{
-		return MorphiaObject.datastore.find(Exemplary.class).field("owner").equal(this).asList();
-		//return Exemplary.all();
 	}
 }

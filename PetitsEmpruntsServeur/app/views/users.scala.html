@@ -1,15 +1,13 @@
-@(uas: List[UserActive])
+@(users : List[models.UserActive])
 
-@import helper._
+@import play.i18n._
 
-@main("UserActives") {
-  
-  <h1>@uas.size() User(s)</h1>
-  
-  <ul>
-    @for(ua <- uas) {
-      <li><a href="@routes.UserProfile.seeUserAccount(ua.getNickname)">@ua.getNickname</a> : @ua.getFirstname @ua.getLastname @ua.getEmail
-      </li>
-    }
-  </ul>
+@main(Messages.get("users.title")) {
+	<h1>@Messages.get("users.h1")</h1>
+	
+	<ul>
+		@for(user <- users) {
+			<li><a href="/editUser/@user.getNickname()">@user.getNickname() : @user.getFirstname() @user.getLastname</a></li>
+		}
+	</ul>
 }
