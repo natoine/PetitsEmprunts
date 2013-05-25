@@ -17,8 +17,8 @@ import com.mongodb.MongoException.DuplicateKey;
 public class Application extends Controller
 {
 	
-	static Form<RegistrationForm> registrationForm = form(RegistrationForm.class);
-	static Form<UserActive> userAccountForm = form(UserActive.class);
+	static Form<RegistrationForm> registrationForm = play.data.Form.form(RegistrationForm.class);
+	static Form<UserActive> userAccountForm = play.data.Form.form(UserActive.class);
 	
 	public static Result index() throws Exception 
 	{
@@ -88,13 +88,13 @@ public class Application extends Controller
 	
 	public static Result login()
 	{
-		Form<Login> lform = form(Login.class);	
+		Form<Login> lform = play.data.Form.form(Login.class);	
 		return ok(views.html.login.render(lform));
 	}
 	
 	public static Result checkLoginInfos()
 	{
-		Form<Login> form = form(Login.class).bindFromRequest();
+		Form<Login> form = play.data.Form.form(Login.class).bindFromRequest();
 		if(form.hasErrors()) 
 		{
             return badRequest(views.html.login.render(form));

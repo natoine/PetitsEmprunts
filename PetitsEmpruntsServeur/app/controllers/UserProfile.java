@@ -24,9 +24,9 @@ import play.mvc.Security;
 
 @Security.Authenticated(Secured.class)
 public class UserProfile extends Controller{
-	static Form<Borrow> borrowForm = form(Borrow.class);
-	static Form<Exemplary> exemplaryForm = form(Exemplary.class);
-	static Form<NonActiveUserRegistrationForm> nonActiveUserRegistrationForm = form(NonActiveUserRegistrationForm.class);
+	static Form<Borrow> borrowForm = play.data.Form.form(Borrow.class);
+	static Form<Exemplary> exemplaryForm = play.data.Form.form(Exemplary.class);
+	static Form<NonActiveUserRegistrationForm> nonActiveUserRegistrationForm = play.data.Form.form(NonActiveUserRegistrationForm.class);
 	
 	public static Result index()
 	{
