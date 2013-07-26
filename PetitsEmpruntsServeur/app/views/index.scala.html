@@ -1,12 +1,21 @@
-@(uas: List[UserActive])
+@import play.i18n._
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
 
-@main("PEA") {
-    <h1>Bienvenue sur Petits Emprunts entre Amis</h1>
-    <h3>Qu'est ce que Petits Emprunts entre Amis ?</h3><br>
-    ...<br>
-    
-    Il y a actuellement @uas.size() utilisateur(s) inscrit(s), 
-    @if(session.get("nickname") == null) {
-    	<a href="@routes.Application.register()">cliquez ici pour vous inscrire</a>.
-    	}
+@main(Messages.get("index.title")) {
+
+	<h1>Play 2 Auth</h1>
+
+	<p>@(Messages.get("index.welcome"))</p>
+	
+	@subjectNotPresent() {
+		<p><a href="/login">@(Messages.get("index.link.connect"))</a></p>
+		<p><a href="/register">@(Messages.get("index.link.register"))</a></p>
+	}
+	
+	@subjectPresent() {
+		<p><a href="/admin">@(Messages.get("index.link.admin"))</a>
+		<p><a href="/profile">@(Messages.get("index.link.myProfile"))</a></p>
+	}
+
 }

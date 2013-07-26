@@ -1,7 +1,13 @@
-package models;
+package models.forms;
 
-import play.data.validation.Constraints.Email;
+import models.UserAccount;
+import play.i18n.Messages;
 
+/**
+ * Classe servant à mapper les champs du formulaire de création d'utilisateur
+ * @author NaturalPad
+ *
+ */
 public class RegistrationForm 
 {
 
@@ -10,11 +16,32 @@ public class RegistrationForm
 	public String passwordRepeat;
 	public String firstname;
 	public String lastname;
-	@Email
 	public String email;
 	
+	/**
+	 * Méthode de vérification des infos sur formulaire. Mettre ici toutes les contraintes sur l'inscription (unicité, passwords équivalents, etc)
+	 * @return message d'erreur s'il y en a un sinon null
+	 */
 	public String validate()
 	{
+		UserAccount testNickname = UserAccount.findByNickname(this.nickname);
+		UserAccount testMail = UserAccount.findByMail(this.email);
+		
+		if(this.email.isEmpty())
+			return Messages.get("registration.mail.empty");
+		
+		if(this.password.length() < 4)
+			return Messages.get("password.tooshort");
+		
+		if(!this.password.equals(this.passwordRepeat))
+			return Messages.get("password.notsame");
+		
+		if(testNickname != null)
+			return Messages.get("registration.username.alreadyexists");
+		
+		if(testMail != null)
+			return Messages.get("registration.mail.alreadyexists");
+		
 		return null;
 	}
 

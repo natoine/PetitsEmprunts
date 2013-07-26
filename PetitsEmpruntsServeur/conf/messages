@@ -1,0 +1,91 @@
+password.tooshort=Le mot de passe doit contenir plus de 4 caractères.
+password.notsame=Les deux mots de passe ne sont pas identiques.
+recovery.mailnotfound=Ce mail n''existe pas dans notre base de données.
+recovery.mail.header=Récupération de mot de passe
+recovery.mail.content=Vous avez demandé à récupérer votre mot de passe pour le compte {0}. Pour entrer un nouveau mot de passe, cliquez sur le lien suivant : {1} Ce lien expirera dans une heure. Ceci est un mail automatique, merci de ne pas y répondre.
+recovery.status.success=Un email vient vous d'être envoyé pour la réinitialisation de votre mot de passe. Merci de vérifier votre boite e-mail.
+recovery.status.expire=Le lien a expiré. Merci de remplir a nouveau le formulaire de récupération de mot de passe.
+recovery.status.usernotfound=L''utilisateur spécifié est introuvable. Merci de remplir a nouveau le formulaire de récupération de mot de passe.
+recovery.status.changepassword=Le mot de passe a bien été modifié !
+registration.username.alreadyexists=Ce nom d'utilisateur existe déjà.
+registration.mail.alreadyexists=Cet email est déjà enregistré dans notre base de données.
+registration.mail.empty=L''email ne peut être vide.
+authentication.fail=Problème lors de l''authentification : le nom d''utilisateur n''existe pas ou le mot de passe n'est pas correct.
+authentication.success=Vous êtes maintenant connecté.
+errorform=Il y a eu une erreur dans le formulaire
+register.success=Le compte a été correctement créé !
+security.error=Erreur. Vous avez tenté d''accéder à une page qui ne vous était pas destinée.
+
+########
+# Vues #
+########
+
+# ADMIN
+button.disconnect=Se déconnecter
+button.userList=Liste des utilisateurs
+admin.index=Bienvenue {0} dans l''administration
+admin.title=Administration
+
+# EDIT USER
+editUser.title=Edition d''un utilisateur
+editUser.h1=Edition de l''utilisateur
+editUser.form.nickname=Nom d''utilisateur
+editUser.form.firstname=Prénom
+editUser.form.lastname=Nom
+editUser.form.roles=Role
+editUser.form.submit=Mettre à jour
+
+# INDEX
+index.welcome=Bienvenue sur le projet de test. Ceci est une page publique qui peut être vue par tout le monde.
+index.link.admin=Administration
+index.link.connect=Connexion
+index.link.register=S''enregistrer
+index.link.myProfile=Mon profil
+index.title=Accueil
+
+# LOGIN
+login.title=Connexion
+login.h1=Connexion
+login.info=Afin d'accéder à l''application, veuillez vous connecter
+login.nickname=Pseudo
+login.password=Mot de passe
+login.button.submit=Se connecter
+login.button.register.info=Vous n''avez pas de compte ? Prenez quelques instants pour en 
+login.button.register=créer un.
+login.button.recovery=Vous avez perdu votre mot de passe ?
+
+# PASSWORD RECOVERY
+passwordRecovery.title=Récupération de mot de passe
+passwordRecovery.h1=Récupération de mot de passe
+passwordRecovery.info=Si vous avez perdu votre mot de passe, entrez votre e-mail dans le formulaire ci-dessous et nous vous enverrons un lien pour le redéfinir.
+passwordRecovery.email=E-mail
+passwordRecovery.button.submit=Envoyer un email de récupération
+
+# RECOVERY CHECK
+recoveryCheck.title=Récupération de mot de passe
+recoveryCheck.h1=Récupération de mot de passe
+recoveryCheck.info=Veuillez taper votre mot de passe ci dessous pour le modifier
+recoveryCheck.password=Mot de passe
+recoveryCheck.password.verify=Mot de passe (vérification)
+recoveryCheck.button.submit=Réinitialiser le mot de passe
+
+# REGISTER
+register.title=S'enregistrer
+register.h1=Créer un nouveau compte
+register.button.submit=Inscription
+register.form.nickname=Pseudo
+register.form.firstname=Prénom
+register.form.lastname=Nom
+register.form.email=Email
+register.form.password=Mot de passe
+register.form.password.verify=Mot de passe (vérification)
+
+# USER PROFILE
+userProfile.title=Mon profil
+userProfile.h1=Bienvenue
+userProfile.link.disconnect=Se déconnecter
+userProfile.link.administration=Administration
+
+# USERS
+users.title=Liste des utilisateurs
+users.h1=Liste des utilisateurs

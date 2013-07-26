@@ -1,25 +1,24 @@
-@(lform: Form[Login])
+@(lform: Form[models.forms.LoginForm])
 
 @import helper._
+@import play.i18n._
 
-@main("Login") {
 
-<div class="center">
-	<div class="box">
-		<h1>Connexion</h1>
+@main(Messages.get("login.title")) {
+
+	<h1>@(Messages.get("login.h1"))</h1>
+	
+	<p>@(Messages.get("login.info")) :</p>
+	
+	@helper.form(action = routes.Application.checkLoginInfos()) {
+		@(Messages.get("login.nickname")) : <br />
+		<input type="text" name="nickname" /><br /><br />
+		@(Messages.get("login.password")) :<br />
+		<input type="password" name="password" /><br /><br />
+		<input type="submit" value="@(Messages.get("login.button.submit"))" />
 		
-		<p>Afin d'acc&eacute;der &agrave; Petits Emprunts entre Amis, veuillez vous connecter :</p>
-		
-		@helper.form(action = routes.Application.checkLoginInfos()) {
-			Pseudo : <br />
-			<input type="text" name="nickname" /><br /><br />
-			Mot de passe :<br />
-			<input type="password" name="password" /><br /><br />
-			<input type="submit" value="Se connecter" />
-			
-			<p>Vous n'avez pas de compte ? Prenez quelques instants pour en <a href="/register">cr&eacute;er un.</a>
-		}
-	</div>
-</div>
+		<p>@(Messages.get("login.button.register.info")) <a href="/register">@Messages.get("login.button.register")</a></p>
+		<p><a href="/recovery">@(Messages.get("login.button.recovery"))</a></p>
+	}
 
 }

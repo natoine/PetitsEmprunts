@@ -1,24 +1,22 @@
-@(uaForm: Form[RegistrationForm])
+@(uaForm: Form[models.forms.RegistrationForm])
 
 @import helper._
+@import play.i18n._
 
-@main("Creation de compte") {
+@main(Messages.get("register.title")) {
+
+	<h1>@(Messages.get("register.h1"))</h1>
 	
-	<div class="center">
-		<div class="box">
+	@form(routes.Application.newUserAccount()) {
 	
-		<h1>Créer un nouveau compte</h1>
-		
-		@form(routes.Application.newUserAccount()) {
-	     @inputText(uaForm("nickname"), '_label -> "Pseudo :")
-	     @inputText(uaForm("firstname"), '_label -> "Prenom :")
-	     @inputText(uaForm("lastname"), '_label -> "Nom :")
-	     @inputText(uaForm("email"), '_label -> "Mel :")
-	     @inputPassword(uaForm("password"), '_label -> "Mot de passe : ")
-	     @inputPassword(uaForm("passwordRepeat"), '_label -> "Mot de passe (verification) : ")
-	     <input type="submit" value="Inscription">
-	    </div>
-	</div>
+		@Messages.get("register.form.nickname") : <br /><input type="text" name="nickname" /><br /><br />
+		@Messages.get("register.form.firstname") : <br /><input type="text" name="firstname" /><br /><br />
+		@Messages.get("register.form.lastname") : <br /><input type="text" name="lastname" /><br /><br />
+		@Messages.get("register.form.email") : <br /><input type="text" name="email" /><br /><br />
+		@Messages.get("register.form.password") : <br /><input type="password" name="password" /><br /><br />
+		@Messages.get("register.form.password.verify") : <br /><input type="password" name="passwordRepeat" /><br /><br />
+
+     	<input type="submit" value="@(Messages.get("register.button.submit"))">
   
   }
 	

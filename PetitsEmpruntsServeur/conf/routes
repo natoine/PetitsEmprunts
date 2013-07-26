@@ -8,24 +8,22 @@ GET 	/login						controllers.Application.login()
 POST 	/login						controllers.Application.checkLoginInfos()
 GET 	/logout						controllers.Application.logout()
 GET 	/register					controllers.Application.register()
-
-#UserProfile
-GET 	/myProfile					controllers.UserProfile.index()
+GET		/recovery					controllers.Application.passwordRecoveryForm()
+POST	/recovery					controllers.Application.passwordRecovery()
 
 #Users
-GET 	/users 						controllers.UserProfile.userAccounts()
 POST 	/users 						controllers.Application.newUserAccount()
-GET		/user/:nickname				controllers.UserProfile.seeUserAccount(nickname: String)
-GET		/user/:nickname/possessions	controllers.UserProfile.seeUserPossession(nickname: String)
-GET		/users/nonactive			controllers.UserProfile.nonactiveuserDeclaration()
-POST	/users/nonactive			controllers.UserProfile.newNonActiveUserAccount()
+GET		/recover/:hash				controllers.Application.recoveryForm(hash: String)
+GET		/recover					controllers.Application.passwordRecoveryForm()
+POST 	/recover					controllers.Application.recoveryCheck()
+GET 	/profile					controllers.Application.userProfile()
 
-#Borrows
-POST	/newBorrow					controllers.UserProfile.newBorrow()
-POST	/closeBorrow					controllers.UserProfile.closeBorrow()
 
-#Possessions
-POST	/newPossession				controllers.UserProfile.newPossession()
+#Admin
+GET		/admin						controllers.Administration.index()
+GET		/users						controllers.Administration.users()
+GET		/editUser/:nickname			controllers.Administration.editUser(nickname : String)
+POST	/confirmEditUser			controllers.Administration.confirmEditUser()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

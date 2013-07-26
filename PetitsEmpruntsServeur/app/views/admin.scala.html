@@ -1,0 +1,9 @@
+@import play.i18n._
+
+@main(Messages.get("admin.title")) {
+
+	<p>@(Messages.get("admin.index", session.get("nickname")))</p>
+
+	<p><a href="/logout">@(Messages.get("button.disconnect"))</a></p>
+	<p><a href="/users">@(Messages.get("button.userList"))</a></p>
+}
