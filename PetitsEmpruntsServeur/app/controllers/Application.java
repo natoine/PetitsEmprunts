@@ -203,7 +203,7 @@ public class Application extends Controller {
 				
 				if(error.message() != null)
 				{
-					sb.append(error.message());
+					sb.append(Messages.get(error.message()));
 					sb.append("<br />");
 				}
 			}
