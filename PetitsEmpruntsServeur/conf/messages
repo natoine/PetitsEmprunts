@@ -7,9 +7,6 @@ recovery.status.success=Un email vient vous d'être envoyé pour la réinitialis
 recovery.status.expire=Le lien a expiré. Merci de remplir a nouveau le formulaire de récupération de mot de passe.
 recovery.status.usernotfound=L''utilisateur spécifié est introuvable. Merci de remplir a nouveau le formulaire de récupération de mot de passe.
 recovery.status.changepassword=Le mot de passe a bien été modifié !
-registration.username.alreadyexists=Ce nom d'utilisateur existe déjà.
-registration.mail.alreadyexists=Cet email est déjà enregistré dans notre base de données.
-registration.mail.empty=L''email ne peut être vide.
 authentication.fail=Problème lors de l''authentification : le nom d''utilisateur n''existe pas ou le mot de passe n'est pas correct.
 authentication.success=Vous êtes maintenant connecté.
 errorform=Il y a eu une erreur dans le formulaire
@@ -79,6 +76,15 @@ register.form.lastname=Nom
 register.form.email=Email
 register.form.password=Mot de passe
 register.form.password.verify=Mot de passe (vérification)
+register.error.firstnameisempty=Le prénom est vide.
+register.error.lastnameisempty=Le nom est vide.
+register.error.emailisempty=L''email est vide.
+register.error.emailisnotvalid=L''email n''est pas valide.
+register.error.emailisalreadyregistered=L''email est déjà enregistré.
+register.error.nicknameisempty=Le pseudo est vide.
+register.error.nicknameisalreadyregistered=Le pseudo est déjà enregistré.
+register.error.passwordistooshort=Le mot de passe est trop court.
+register.error.passworddoesnotmatch=Le mot de passe de confirmation n''est pas correct.
 
 # USER PROFILE
 userProfile.title=Mon profil
