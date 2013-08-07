@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import models.UserAccount;
-import models.forms.RegistrationForm;
 import models.forms.UserEditForm;
 import models.security.Roles;
 import be.objectify.deadbolt.java.actions.*;
@@ -72,14 +71,16 @@ public class Administration extends Controller
 		{
 			flash("status", Messages.get("errorform") + " :<br />" + Application.getHTMLReadableErrors(errors));
 			flash("status-css", "status_error");
-			return redirect(routes.Application.register());
+			return redirect(routes.Administration.users());
 		}
 		else 
 		{
-			UserAccount user = UserAccount.findByNickname(filledForm.field("nickname").value());
-			
+			// update account
+			UserAccount user = UserAccount.findById(filledForm.field("id").value());
+			user.setNickname(filledForm.field("nickname").value());
 			user.setFirstname(filledForm.field("firstname").value());
 			user.setLastname(filledForm.field("lastname").value());
+			user.setEmail(filledForm.field("email").value());
 			user.setRoles(new ArrayList<Roles>());
 			user.addRole(Roles.valueOf(filledForm.field("role").value()));
 			

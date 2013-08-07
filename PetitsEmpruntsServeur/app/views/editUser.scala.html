@@ -7,9 +7,11 @@
 	<h1>@Messages.get("editUser.h1") @user.getNickname()</h1>
 	
 	@form(routes.Administration.confirmEditUser()) {
+		<input type="hidden" name="id" value="@user.getId()" />
 		@Messages.get("editUser.form.nickname") : <input type="text" name="nickname" value="@user.getNickname()" /><br />
 		@Messages.get("editUser.form.firstname") : <input type="text" name="firstname" value="@user.getFirstname()" /><br />
 		@Messages.get("editUser.form.lastname") : <input type="text" name="lastname" value="@user.getLastname()" /><br />
+		@Messages.get("editUser.form.email") : <input type="text" name="email" value="@user.getEmail()" /><br />
 		@Messages.get("editUser.form.roles") : 
 		<select name="role">
 		
