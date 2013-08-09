@@ -2,7 +2,7 @@ package models.forms;
 
 import play.data.validation.Constraints.EmailValidator;
 import models.UserAccount;
-import models.security.Roles;
+import models.UserRole.Roles;
 
 /**
  * Wrapper pour la formulaire d'édition d'utilisateur dans l'administration

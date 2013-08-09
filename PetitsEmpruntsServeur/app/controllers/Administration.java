@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import models.UserAccount;
+import models.UserRole;
+import models.UserRole.Roles;
 import models.forms.UserEditForm;
-import models.security.Roles;
-import be.objectify.deadbolt.java.actions.*;
 import play.data.Form;
 import play.data.validation.ValidationError;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 
 /**
  * Controleur protégé par identification : toutes les méthodes sont accessibles uniquement
@@ -53,7 +55,9 @@ public class Administration extends Controller
 	{
 		UserAccount user = UserAccount.findByNickname(nickname);
 		
-		Roles[] roles = Roles.values();
+		List<UserRole> roles = UserRole.all();
+		
+		//Roles[] roles = Roles.values();
 		
 		return ok(views.html.editUser.render(user, roles));
 	}
@@ -80,11 +84,11 @@ public class Administration extends Controller
 			user.setNickname(filledForm.field("nickname").value());
 			user.setFirstname(filledForm.field("firstname").value());
 			user.setLastname(filledForm.field("lastname").value());
+			user.setRoles(new ArrayList<UserRole>());
+			UserRole role = UserRole.findByType(Roles.valueOf(filledForm.field("role").value()));
+			user.addRole(role);
 			user.setEmail(filledForm.field("email").value());
 			user.setValidated(filledForm.field("validated").value().equals("on"));
-			user.setRoles(new ArrayList<Roles>());
-			user.addRole(Roles.valueOf(filledForm.field("role").value()));
-			
 			UserAccount.update(user);
 			
 			return redirect(routes.Administration.editUser(user.getNickname()));

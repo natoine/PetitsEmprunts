@@ -17,7 +17,6 @@ GET     /register/validate/:hash    controllers.RegistrationController.validate(
 
 #Users
 GET		/recover/:hash				controllers.Application.recoveryForm(hash: String)
-GET		/recover					controllers.Application.passwordRecoveryForm()
 POST 	/recover					controllers.Application.recoveryCheck()
 GET 	/profile					controllers.Application.userProfile()
 

@@ -1,16 +1,15 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import models.wrappers.MorphiaObject;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-import org.bson.types.ObjectId;
+import com.avaje.ebean.Ebean;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Reference;
+import play.db.ebean.Model;
 
 /**
  * Classe servant lors de la récupération de mot de passe d'un utilisateur
@@ -18,15 +17,15 @@ import com.google.code.morphia.annotations.Reference;
  *
  */
 @Entity
-public class PwdRecoveryHolder 
+public class PwdRecoveryHolder extends Model
 {	
 	@Id
-	private ObjectId id;
+	public Long id;
 
 	/**
 	 * Référence vers l'utilisateur qui cherche à récupérer son mot de passe
 	 */
-	@Reference
+	@OneToOne
 	public UserAccount user;
 	
 	/**
@@ -39,6 +38,12 @@ public class PwdRecoveryHolder
 	 */
 	public String randomHash;
 	
+	public static Finder<Long, PwdRecoveryHolder> find = new Finder<Long, PwdRecoveryHolder>(Long.class, PwdRecoveryHolder.class);
+	
+	
+	public PwdRecoveryHolder()
+	{
+	}
 	
 	/**
 	 * Retrouve une demande de récupération de mot de passe avec un hash donnée
@@ -47,7 +52,7 @@ public class PwdRecoveryHolder
 	 */
 	public static PwdRecoveryHolder findByHash(String hash)
 	{
-		return MorphiaObject.datastore.find(PwdRecoveryHolder.class).field("randomHash").equal(hash).get();
+		return find.where().eq("hash", hash).findUnique();
 	}
 	
 	/**
@@ -57,13 +62,13 @@ public class PwdRecoveryHolder
 	 */
 	public static boolean alreadyExists(UserAccount user)
 	{
-		PwdRecoveryHolder usr = MorphiaObject.datastore.find(PwdRecoveryHolder.class).field("user").equal(user).get();
+		PwdRecoveryHolder usr = find.where().eq("user.id", user.id).findUnique();
 		
 		if(usr.getExpireDate().after(new Date()))
 			return true;
 		else
 		{
-			PwdRecoveryHolder.delete(usr.getId());
+			PwdRecoveryHolder.delete(usr.id);
 			return false;
 		}
 	}
@@ -74,14 +79,7 @@ public class PwdRecoveryHolder
 	 */
 	public static List<PwdRecoveryHolder> all() 
 	{
-		if (MorphiaObject.datastore != null) 
-		{
-			return MorphiaObject.datastore.find(PwdRecoveryHolder.class).asList();
-		}
-		else
-		{
-			return new ArrayList<PwdRecoveryHolder>();
-		}
+		return find.all();
 	}
 
 	/**
@@ -90,33 +88,27 @@ public class PwdRecoveryHolder
 	 */
 	public static void create(PwdRecoveryHolder pwdRecovery) 
 	{
-		MorphiaObject.datastore.save(pwdRecovery);
+		Ebean.save(pwdRecovery);
 	}
 	
 	/**
 	 * Supprime une demande de récupération de mot de passe dans la BDD
 	 * @param idToDelete
 	 */
-	public static void delete(ObjectId idToDelete) 
+	public static void delete(Long idToDelete) 
 	{
-		PwdRecoveryHolder toDelete = MorphiaObject.datastore.find(PwdRecoveryHolder.class).field("_id").equal(idToDelete).get();
-		if (toDelete != null) 
-		{
-			MorphiaObject.datastore.delete(toDelete);
-		}
+		PwdRecoveryHolder pwdRecovery = PwdRecoveryHolder.findById(idToDelete);
+		Ebean.delete(pwdRecovery);
 	}
-
-	/**
-	 * Supprime une demande de récupération de mot de passe dans la BDD
-	 * @param idToDelete
-	 */
-	public static void delete(String idToDelete) 
+	
+	public void delete()
 	{
-		PwdRecoveryHolder toDelete = MorphiaObject.datastore.find(PwdRecoveryHolder.class).field("_id").equal(new ObjectId(idToDelete)).get();
-		if (toDelete != null) 
-		{
-			MorphiaObject.datastore.delete(toDelete);
-		}
+		Ebean.delete(this);
+	}
+	
+	public static PwdRecoveryHolder findById(Long id)
+	{
+		return find.byId(id);
 	}
 
 	////////////////
@@ -139,20 +131,20 @@ public class PwdRecoveryHolder
 		this.expireDate = expireDate;
 	}
 
-	public ObjectId getId() {
-		return id;
-	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
-
 	public String getRandomHash() {
 		return randomHash;
 	}
 
 	public void setRandomHash(String randomHash) {
 		this.randomHash = randomHash;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

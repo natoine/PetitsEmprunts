@@ -2,25 +2,18 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import models.security.Roles;
-import models.wrappers.MorphiaObject;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
-import org.bson.types.ObjectId;
-
-import play.data.validation.Constraints.Email;
-import play.data.validation.Constraints.Required;
-
+import play.db.ebean.Model;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Indexed;
+import com.avaje.ebean.Ebean;
 
 import controllers.util.Secured;
 
@@ -30,39 +23,41 @@ import controllers.util.Secured;
  *
  */
 @Entity
-public class UserAccount implements Subject
+public class UserAccount extends Model implements Subject
 {
 	@Id
-	private ObjectId id;
-
+	public Long id;
+	
 	/**
 	 * Login
 	 */
-	@Indexed(unique = true) @Required
-	private String nickname ;
-
+	public String nickname ;
+	
 	/**
 	 * Prénom
 	 */
-	private String firstname ;
-
+	public String firstname ;
+	
 	/**
 	 * Nom
 	 */
-	private String lastname;
-
+	public String lastname ;
+	
 	/**
 	 * Email
 	 */
-	@Email @Required @Indexed(unique = true)
-	private String email;
-
+	public String email ;
+	
 	/**
 	 * Mot de passe hashé
 	 */
-	@Required
-	private String hashedPassword;
-
+	public String hashedPassword;
+	
+	/**
+	 * Date de création de l'utilisateur
+	 */
+	public Date creationDate;
+	
 	/**
 	 * Compte validé ou pas
 	 */
@@ -74,31 +69,20 @@ public class UserAccount implements Subject
 	private String validationCode;
 
 	/**
-	 * Date de création de l'utilisateur
-	 */
-	private Date creationDate;
-
-	/**
 	 * Liste des roles possédés par l'utilisateur
 	 */
-	private List<Roles> roles;
+	@ManyToMany
+	public List<UserRole> roles;
+	
+	public static Finder<Long, UserAccount> find = new Finder<Long, UserAccount>(Long.class, UserAccount.class);
+	
 
 	public UserAccount()
 	{
-		this.roles = new ArrayList<Roles>();
-		this.roles.add(Roles.User);
+		this.roles = new ArrayList<UserRole>();
+		//this.roles.add(UserRole.findByType(UserRole.Roles.User));
 	}
 	
-	public ObjectId getId() 
-	{
-		return id;
-	}
-
-	public void setId(ObjectId id) 
-	{
-		this.id = id;
-	}
-
 	public String getNickname() 
 	{
 		return nickname;
@@ -165,21 +149,14 @@ public class UserAccount implements Subject
 	 */
 	public static List<UserAccount> all()
 	{
-		if (MorphiaObject.datastore != null)
-		{
-			return MorphiaObject.datastore.find(UserAccount.class).asList();
-		} 
-		else
-		{
-			return new ArrayList<UserAccount>();
-		}
+		return find.all();
 	}
 
 	/**
 	 * wtf ?
 	 * @return
 	 */
-	public static Map<String,String> options()
+/**	public static Map<String,String> options()
 	{
 		List<UserAccount> uas = all();
 		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
@@ -189,14 +166,15 @@ public class UserAccount implements Subject
 		}
 		return options;
 	}
-
+	**/
+	
 	/**
 	 * Enregistre en base de données l'utilisateur passé en paramètre
 	 * @param userAccount
 	 */
 	public static void create(UserAccount userAccount)
 	{
-		MorphiaObject.datastore.save(userAccount);
+		Ebean.save(userAccount);
 	}
 
 	/**
@@ -205,30 +183,7 @@ public class UserAccount implements Subject
 	 */
 	public static void update(UserAccount userAccount)
 	{
-		create(userAccount);
-	}
-
-	/**
-	 * Supprime de la BDD l'utilisateur passé en paramètre
-	 * @param idToDelete
-	 */
-	public static void delete(String idToDelete)
-	{
-		UserAccount toDelete = MorphiaObject.datastore.find(UserAccount.class).field("_id").equal(new ObjectId(idToDelete)).get();
-		if (toDelete != null)
-		{
-			MorphiaObject.datastore.delete(toDelete);
-		}
-	}
-
-	/**
-	 * Récupère dans la BDD l'utilisateur dont le nickname a été passé en paramètre
-	 * @param nickname
-	 * @return
-	 */
-	public static UserAccount findByNickname(String nickname)
-	{
-		return MorphiaObject.datastore.find(UserAccount.class).field("nickname").equal(nickname).get();
+		Ebean.save(userAccount);
 	}
 
 	/**
@@ -238,7 +193,7 @@ public class UserAccount implements Subject
 	 */
 	public static UserAccount findById(String id)
 	{
-		return MorphiaObject.datastore.find(UserAccount.class).field("_id").equal(new ObjectId(id)).get();
+		return findById(Long.parseLong(id));
 	}
 
 	/**
@@ -246,9 +201,9 @@ public class UserAccount implements Subject
 	 * @param id
 	 * @return
 	 */
-	public static UserAccount findById(ObjectId id)
+	public static UserAccount findById(Long id)
 	{
-		return MorphiaObject.datastore.find(UserAccount.class).field("_id").equal(id).get();
+		return find.byId(id);
 	}
 
 	/**
@@ -256,7 +211,7 @@ public class UserAccount implements Subject
 	 */
 	public static UserAccount findByValidationCode(String validationCode)
 	{
-		return MorphiaObject.datastore.find(UserAccount.class).field("validationCode").equal(validationCode).get();
+		return find.where().eq("validationCode", validationCode).findUnique();
 	}
 
 	public String getHashedPassword()
@@ -277,7 +232,7 @@ public class UserAccount implements Subject
 	 */
 	public static UserAccount authenticate(String nickname, String password)
 	{
-		UserAccount user = MorphiaObject.datastore.find(UserAccount.class).field("nickname").equal(nickname).get();
+		UserAccount user = UserAccount.findByNickname(nickname);
 		String hashPassword = Secured.hash(password);
 
 		if(user != null && hashPassword != null)
@@ -300,7 +255,17 @@ public class UserAccount implements Subject
 	 */
 	public static UserAccount findByMail(String mail)
 	{
-		return MorphiaObject.datastore.find(UserAccount.class).field("email").equal(mail).get();
+		return find.where().eq("email", mail).findUnique();
+	}
+
+	/**
+	 * Récupère dans la BDD l'utilisateur dont le nickname a été passé en paramètre
+	 * @param nickname
+	 * @return
+	 */
+	public static UserAccount findByNickname(String nickname)
+	{
+		return find.where().eq("nickname", nickname).findUnique();
 	}
 
 	/**
@@ -319,7 +284,7 @@ public class UserAccount implements Subject
 	 */
 	public boolean isSameUser(UserAccount user)
 	{
-		return user.getId().equals(this.getId());
+		return user.id.equals(this.id);
 	}
 
 	public Date getCreationDate() {
@@ -355,10 +320,17 @@ public class UserAccount implements Subject
 	@Override
 	public List<? extends Role> getRoles()
 	{
-		return this.roles;
+		List<Role> roles = new ArrayList<Role>();
+		
+		for(UserRole r : this.roles)
+		{
+			roles.add(r.role);
+		}
+		
+		return roles;
 	}
-
-	public void setRoles(List<Roles> roles)
+	
+	public void setRoles(List<UserRole> roles)
 	{
 		this.roles = roles;
 	}
@@ -367,9 +339,17 @@ public class UserAccount implements Subject
 	 * Ajoute un role a la liste des roles de l'utilisateur
 	 * @param role
 	 */
-	public void addRole(Roles role)
+	public void addRole(UserRole role)
 	{
 		if(!this.roles.contains(role))
 			this.roles.add(role);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

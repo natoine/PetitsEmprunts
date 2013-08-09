@@ -1,75 +1,84 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.types.ObjectId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Reference;
+import com.avaje.ebean.Ebean;
 
-import models.wrappers.MorphiaObject;
 
-@Entity("Exemplary")
-public class Exemplary
+@Entity
+public class Exemplary extends Model
 {
 	@Id
-	private ObjectId id;
+	public Long id;
 	
-	@Required @Reference
-	private BorrowableThing thing;
+	@OneToOne
+	public BorrowableThing thing;
 	
-	@Required @Reference
-	private Person owner;
-
-	public ObjectId getId() {
-		return id;
+	@OneToOne
+	public Person owner;
+	
+	public static Finder<Long, Exemplary> find = new Finder<Long, Exemplary>(Long.class, Exemplary.class);
+	
+	public Exemplary()
+	{
 	}
 
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
-
-	public BorrowableThing getThing() {
+	public BorrowableThing getThing() 
+	{
 		return thing;
 	}
 
-	public void setThing(BorrowableThing thing) {
+	public void setThing(BorrowableThing thing) 
+	{
 		this.thing = thing;
 	}
 
-	public Person getOwner() {
+	public Person getOwner() 
+	{
 		return owner;
 	}
 
-	public void setOwner(Person owner) {
+	public void setOwner(Person owner) 
+	{
 		this.owner = owner;
 	}
 	
 	public static void create(Exemplary exemplary) 
 	{
-		MorphiaObject.morphia.map(Exemplary.class);
-		MorphiaObject.datastore.save(exemplary);
+		Ebean.save(exemplary);
 	}
 	
 	public static Exemplary findByThingAndOwner(BorrowableThing thing, Person owner)
 	{
-		return MorphiaObject.datastore.find(Exemplary.class).field("thing").equal(thing).field("owner").equal(owner).get();
+		return find.where().eq("thing", thing).eq("person.id", owner.id).findUnique();
 	}
 	
-	public static List<Exemplary> all() {
-		if (MorphiaObject.datastore != null) {
-			return MorphiaObject.datastore.find(Exemplary.class).asList();
-		} else {
-			return new ArrayList<Exemplary>();
-		}
+	public static List<Exemplary> all() 
+	{
+		return find.all();
 	}
 	
 	public static Exemplary findById(String id)
 	{
-		return MorphiaObject.datastore.find(Exemplary.class).field("_id").equal(new ObjectId(id)).get();
+		return findById(Long.parseLong(id));
+	}
+	
+	public static Exemplary findById(Long id)
+	{
+		return find.byId(id);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

@@ -9,5 +9,6 @@ PetitsEmpruntsServeur/.target
 PetitsEmpruntsServeur/.project
 PetitsEmpruntsServeur/.project
 PetitsEmpruntsServeur/conf/evolutions
+PetitsEmpruntsServeur/db
 data
 bin
