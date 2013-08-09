@@ -24,7 +24,6 @@ public class Global extends GlobalSettings
 			
 			Ebean.save(all.get("roles"));
 			Ebean.save(all.get("users"));
-			
 			for(Object user : all.get("users"))
             {
             	Ebean.saveManyToManyAssociations(user, "roles");

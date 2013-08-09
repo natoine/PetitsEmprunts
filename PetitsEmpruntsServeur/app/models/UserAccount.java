@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import play.db.ebean.Model;
 import be.objectify.deadbolt.core.models.Permission;
@@ -60,6 +61,7 @@ public class UserAccount extends Model implements Subject
 	/**
 	 * Liste des roles possédés par l'utilisateur
 	 */
+	@ManyToMany
 	public List<UserRole> roles;
 	
 	public static Finder<Long, UserAccount> find = new Finder<Long, UserAccount>(Long.class, UserAccount.class);
@@ -68,7 +70,7 @@ public class UserAccount extends Model implements Subject
 	public UserAccount()
 	{
 		this.roles = new ArrayList<UserRole>();
-		this.roles.add(UserRole.findByType(UserRole.Roles.User));
+		//this.roles.add(UserRole.findByType(UserRole.Roles.User));
 	}
 	
 	public String getNickname() 

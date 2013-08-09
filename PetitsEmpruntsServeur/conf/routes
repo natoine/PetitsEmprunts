@@ -14,7 +14,6 @@ POST	/recovery					controllers.Application.passwordRecovery()
 #Users
 POST 	/users 						controllers.Application.newUserAccount()
 GET		/recover/:hash				controllers.Application.recoveryForm(hash: String)
-GET		/recover					controllers.Application.passwordRecoveryForm()
 POST 	/recover					controllers.Application.recoveryCheck()
 GET 	/profile					controllers.Application.userProfile()
 
