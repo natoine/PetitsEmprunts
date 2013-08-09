@@ -10,7 +10,7 @@
 	
 	@helper.form(action = routes.Application.recoveryCheck()) {
 		@(Messages.get("recoveryCheck.password")) : <br />
-		<input type="text" name="password" /><br /><br />
+		<input type="password" name="password" /><br /><br />
 		@(Messages.get("recoveryCheck.password.verify")) :<br />
 		<input type="password" name="passwordRepeat" /><br /><br />
 		<input type="hidden" name="hash" value="@hash" />

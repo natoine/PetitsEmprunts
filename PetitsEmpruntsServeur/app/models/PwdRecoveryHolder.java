@@ -52,7 +52,7 @@ public class PwdRecoveryHolder extends Model
 	 */
 	public static PwdRecoveryHolder findByHash(String hash)
 	{
-		return find.where().eq("hash", hash).findUnique();
+		return find.where().eq("randomHash", hash).findUnique();
 	}
 	
 	/**
