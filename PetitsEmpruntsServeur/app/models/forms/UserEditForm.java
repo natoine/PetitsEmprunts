@@ -17,6 +17,7 @@ public class UserEditForm
 	public String firstname;
 	public String lastname;
 	public String email;
+	public boolean validated;
 	public Roles role;
 
 	// list of errors

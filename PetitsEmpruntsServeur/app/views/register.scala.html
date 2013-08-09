@@ -7,7 +7,7 @@
 
 	<h1>@(Messages.get("register.h1"))</h1>
 	
-	@form(routes.Application.newUserAccount()) {
+	@form(routes.RegistrationController.process()) {
 	
 		@Messages.get("register.form.nickname") : <br /><input type="text" name="nickname" /><br /><br />
 		@Messages.get("register.form.firstname") : <br /><input type="text" name="firstname" /><br /><br />

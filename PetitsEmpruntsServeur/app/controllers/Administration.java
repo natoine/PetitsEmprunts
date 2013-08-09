@@ -69,7 +69,7 @@ public class Administration extends Controller
 		
 		if(filledForm.hasErrors()) 
 		{
-			flash("status", Messages.get("errorform") + " :<br />" + Application.getHTMLReadableErrors(errors));
+			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
 			flash("status-css", "status_error");
 			return redirect(routes.Administration.users());
 		}
@@ -81,6 +81,7 @@ public class Administration extends Controller
 			user.setFirstname(filledForm.field("firstname").value());
 			user.setLastname(filledForm.field("lastname").value());
 			user.setEmail(filledForm.field("email").value());
+			user.setValidated(filledForm.field("validated").value().equals("on"));
 			user.setRoles(new ArrayList<Roles>());
 			user.addRole(Roles.valueOf(filledForm.field("role").value()));
 			

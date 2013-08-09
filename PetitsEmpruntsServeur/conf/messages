@@ -10,8 +10,11 @@ recovery.status.changepassword=Le mot de passe a bien été modifié !
 authentication.fail=Problème lors de l''authentification : le nom d''utilisateur n''existe pas ou le mot de passe n'est pas correct.
 authentication.success=Vous êtes maintenant connecté.
 errorform=Il y a eu une erreur dans le formulaire
-register.success=Le compte a été correctement créé !
+register.success=Le compte a été correctement créé ! Un email vous a été envoyé pour vous permettre de confirmer votre inscription. Veuillez suivre les inscructions décrites dans ce mail.
 security.error=Erreur. Vous avez tenté d''accéder à une page qui ne vous était pas destinée.
+
+application.name=Petits Emprunts Entre Amis
+application.shortname=PetitsEmprunts
 
 ########
 # Vues #
@@ -85,6 +88,8 @@ register.error.nicknameisempty=Le pseudo est vide.
 register.error.nicknameisalreadyregistered=Le pseudo est déjà enregistré.
 register.error.passwordistooshort=Le mot de passe est trop court.
 register.error.passworddoesnotmatch=Le mot de passe de confirmation n''est pas correct.
+register.mail.header=[{0}] Confirmation d''inscription
+register.mail.content=Bonjour {0}.\n\nL''équipe de {1} vous souhaite la bienvenue.\n\nPour valider votre inscription, cliquez sur le lien suivant :\n{2}\nou recopiez le dans votre navigateur.\n\nCeci est un mail automatique, merci de ne pas y répondre.
 
 # USER PROFILE
 userProfile.title=Mon profil

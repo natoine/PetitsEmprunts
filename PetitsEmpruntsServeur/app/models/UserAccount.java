@@ -34,40 +34,50 @@ public class UserAccount implements Subject
 {
 	@Id
 	private ObjectId id;
-	
+
 	/**
 	 * Login
 	 */
-	@Indexed(unique = true) @Required 
+	@Indexed(unique = true) @Required
 	private String nickname ;
-	
+
 	/**
 	 * Prénom
 	 */
 	private String firstname ;
-	
+
 	/**
 	 * Nom
 	 */
-	private String lastname ;
-	
+	private String lastname;
+
 	/**
 	 * Email
 	 */
 	@Email @Required @Indexed(unique = true)
-	private String email ;
-	
+	private String email;
+
 	/**
 	 * Mot de passe hashé
 	 */
 	@Required
 	private String hashedPassword;
-	
+
+	/**
+	 * Compte validé ou pas
+	 */
+	private boolean validated;
+
+	/**
+	 * Code de validation
+	 */
+	private String validationCode;
+
 	/**
 	 * Date de création de l'utilisateur
 	 */
 	private Date creationDate;
-	
+
 	/**
 	 * Liste des roles possédés par l'utilisateur
 	 */
@@ -129,17 +139,37 @@ public class UserAccount implements Subject
 		this.email = email;
 	}
 
+	public boolean isValidated()
+	{
+		return this.validated;
+	}
+
+	public void setValidated(boolean validated)
+	{
+		this.validated = validated;
+	}
+
+	public String getValidationCode()
+	{
+		return this.validationCode;
+	}
+
+	public void setValidationCode(String validationCode)
+	{
+		this.validationCode = validationCode;
+	}
+
 	/**
 	 * Renvoi la liste de tous les utilisateurs enregistrés
 	 * @return
 	 */
-	public static List<UserAccount> all() 
+	public static List<UserAccount> all()
 	{
-		if (MorphiaObject.datastore != null) 
+		if (MorphiaObject.datastore != null)
 		{
 			return MorphiaObject.datastore.find(UserAccount.class).asList();
 		} 
-		else 
+		else
 		{
 			return new ArrayList<UserAccount>();
 		}
@@ -149,26 +179,26 @@ public class UserAccount implements Subject
 	 * wtf ?
 	 * @return
 	 */
-	public static Map<String,String> options() 
+	public static Map<String,String> options()
 	{
 		List<UserAccount> uas = all();
 		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
-		for(UserAccount ua: uas) 
+		for(UserAccount ua: uas)
 		{
 			options.put(ua.id.toString(), ua.nickname);
 		}
 		return options;
 	}
-	
+
 	/**
 	 * Enregistre en base de données l'utilisateur passé en paramètre
 	 * @param userAccount
 	 */
-	public static void create(UserAccount userAccount) 
+	public static void create(UserAccount userAccount)
 	{
 		MorphiaObject.datastore.save(userAccount);
 	}
-	
+
 	/**
 	 * Met à jour dans la BDD l'utilisateur passé en paramètre
 	 * @param userAccount
@@ -182,15 +212,15 @@ public class UserAccount implements Subject
 	 * Supprime de la BDD l'utilisateur passé en paramètre
 	 * @param idToDelete
 	 */
-	public static void delete(String idToDelete) 
+	public static void delete(String idToDelete)
 	{
 		UserAccount toDelete = MorphiaObject.datastore.find(UserAccount.class).field("_id").equal(new ObjectId(idToDelete)).get();
-		if (toDelete != null) 
+		if (toDelete != null)
 		{
 			MorphiaObject.datastore.delete(toDelete);
-		} 
+		}
 	}
-	
+
 	/**
 	 * Récupère dans la BDD l'utilisateur dont le nickname a été passé en paramètre
 	 * @param nickname
@@ -200,7 +230,7 @@ public class UserAccount implements Subject
 	{
 		return MorphiaObject.datastore.find(UserAccount.class).field("nickname").equal(nickname).get();
 	}
-	
+
 	/**
 	 * Récupère dans la BDD l'utilisateur dont l'identifiant a été passé en paramètre
 	 * @param id
@@ -210,7 +240,7 @@ public class UserAccount implements Subject
 	{
 		return MorphiaObject.datastore.find(UserAccount.class).field("_id").equal(new ObjectId(id)).get();
 	}
-	
+
 	/**
 	 * Récupère dans la BDD l'utilisateur dont l'identifiant a été passé en paramètre
 	 * @param id
@@ -221,16 +251,16 @@ public class UserAccount implements Subject
 		return MorphiaObject.datastore.find(UserAccount.class).field("_id").equal(id).get();
 	}
 
-	public String getHashedPassword() 
+	public String getHashedPassword()
 	{
 		return hashedPassword;
 	}
 
-	public void setHashedPassword(String hashedPassword) 
+	public void setHashedPassword(String hashedPassword)
 	{
 		this.hashedPassword = hashedPassword;
 	}
-	
+
 	/**
 	 * Appelé lors du login de l'utilisateur. Vérifie que le mot de passe donné est bon.
 	 * @param nickname
@@ -241,7 +271,7 @@ public class UserAccount implements Subject
 	{
 		UserAccount user = MorphiaObject.datastore.find(UserAccount.class).field("nickname").equal(nickname).get();
 		String hashPassword = Secured.hash(password);
-		
+
 		if(user != null && hashPassword != null)
 		{
 			if(user.getHashedPassword().equals(hashPassword))
@@ -254,7 +284,7 @@ public class UserAccount implements Subject
 		else
 			return null;
 	}
-	
+
 	/**
 	 * Récupère l'utilisateur dans la base de données dont le mail est celui passé en paramètre
 	 * @param mail
@@ -264,7 +294,7 @@ public class UserAccount implements Subject
 	{
 		return MorphiaObject.datastore.find(UserAccount.class).field("email").equal(mail).get();
 	}
-	
+
 	/**
 	 * Aucune idée d'a quoi ça sert
 	 * @return
@@ -273,7 +303,7 @@ public class UserAccount implements Subject
 	{
 		return "ok";
 	}
-	
+
 	/**
 	 * Renvoi vrai si l'utilisateur passé en paramètre est identique, faux sinon
 	 * @param user
@@ -315,16 +345,16 @@ public class UserAccount implements Subject
 	 * Renvoi la liste des roles de l'utilisateur
 	 */
 	@Override
-	public List<? extends Role> getRoles() 
+	public List<? extends Role> getRoles()
 	{
 		return this.roles;
 	}
-	
+
 	public void setRoles(List<Roles> roles)
 	{
 		this.roles = roles;
 	}
-	
+
 	/**
 	 * Ajoute un role a la liste des roles de l'utilisateur
 	 * @param role
