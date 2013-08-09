@@ -1,15 +1,12 @@
-import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import models.*;
-import models.security.Roles;
-import models.wrappers.MorphiaObject;
-
+import models.UserAccount;
 import play.GlobalSettings;
-import play.Logger;
+import play.libs.Yaml;
 
-import com.google.code.morphia.Morphia;
-import com.mongodb.Mongo;
+import com.avaje.ebean.Ebean;
+
 
 /**
  * Classe appelé au premier lancement de play.
@@ -21,41 +18,17 @@ public class Global extends GlobalSettings
 	@Override
 	public void onStart(play.Application arg0) 
 	{
-		super.beforeStart(arg0);
-		Logger.debug("** OnStart play2auth Application **");
-		Logger.info("Connecting to MongoDB database at 127.0.0.1");
-		
-		// on essaye de se connecter a la base de données play2auth. On la cree si elle n'existe pas
-		try 
+		if(Ebean.find(UserAccount.class).findRowCount() == 0) 
 		{
-			MorphiaObject.mongo = new Mongo("127.0.0.1", 27017);
-		} 
-		catch (UnknownHostException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		MorphiaObject.morphia = new Morphia();
-		MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "play2auth");
-		
-		MorphiaObject.morphia.map(UserAccount.class);
-		
-		MorphiaObject.datastore.ensureIndexes();
-		MorphiaObject.datastore.ensureCaps();
-		
-		// on crée un admin par défaut. Login : admin / password : admin
-		if(UserAccount.all().size() == 0)
-		{
-			UserAccount admin = new UserAccount();
-			admin.setRoles(new ArrayList<Roles>());
-			admin.addRole(Roles.Admin);
-			admin.setEmail("admin@naturalpad.org");
-			admin.setFirstname("Antoine");
-			admin.setLastname("Seilles");
-			admin.setNickname("admin");
-			admin.setHashedPassword("0925e15d0ae6af196e6295923d76af02b4a3420f");
+			Map<String,List<Object>> all = (Map<String,List<Object>>)Yaml.load("initial-data.yml");
 			
-			UserAccount.create(admin);
+			Ebean.save(all.get("roles"));
+			Ebean.save(all.get("users"));
+			
+			for(Object user : all.get("users"))
+            {
+            	Ebean.saveManyToManyAssociations(user, "roles");
+            }
 		}
 	}
 }

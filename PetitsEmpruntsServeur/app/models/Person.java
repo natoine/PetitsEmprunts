@@ -1,13 +1,26 @@
 package models;
 
-import org.bson.types.ObjectId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
+import play.db.ebean.Model;
 
-@Entity("Person")
-public class Person 
+
+@Entity
+public class Person extends Model
 {
 	@Id
-	private ObjectId id;
+	public Long id;
+	
+	public Person()
+	{
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

@@ -1,44 +1,41 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.bson.types.ObjectId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import com.avaje.ebean.Ebean;
 
 import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Reference;
-
-import models.wrappers.MorphiaObject;
-
-@Entity("Borrow")
-public class Borrow 
+@Entity
+public class Borrow extends Model
 {
 	@Id
-	private ObjectId id;
+	public Long id;
 	
-	@Required @Reference
-	private Person borrower;
+	@OneToOne
+	public Person borrower;
 	
-	@Required @Reference
-	private Exemplary exemplary;
+	@OneToOne
+	public Exemplary exemplary;
 	
-	@Required
-	private Date startingDate;
+	public Date startingDate;
 	
-	private Date closingDate;
+	public Date closingDate;
+	
+	public static Finder<Long, Borrow> find = new Finder<Long, Borrow>(Long.class, Borrow.class);
+	
 
-	public ObjectId getId() {
-		return id;
+	public Borrow()
+	{
 	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
-
+	
 	public Person getBorrower() {
 		return borrower;
 	}
@@ -77,19 +74,14 @@ public class Borrow
 		else return true ;
 	}
 	
-	public static List<Borrow> all() {
-		if (MorphiaObject.datastore != null) {
-			return MorphiaObject.datastore.find(Borrow.class).asList();
-		} else {
-			return new ArrayList<Borrow>();
-		}
+	public static List<Borrow> all() 
+	{
+		return find.all();
 	}
 	
 	public static void create(Borrow borrow) 
 	{
-		borrow.setStartingDate(new Date());
-		MorphiaObject.morphia.map(Borrow.class);
-		MorphiaObject.datastore.save(borrow);
+		Ebean.save(borrow);
 	}
 	
 	public boolean isConcernedByThisBorrow(Person user)
@@ -101,6 +93,19 @@ public class Borrow
 	
 	public static Borrow findById(String id)
 	{
-		return MorphiaObject.datastore.find(Borrow.class).field("_id").equal(new ObjectId(id)).get();
+		return findById(Long.parseLong(id));
+	}
+	
+	public static Borrow findById(Long id)
+	{
+		return find.byId(id);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

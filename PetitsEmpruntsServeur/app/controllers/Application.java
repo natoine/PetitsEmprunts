@@ -1,42 +1,27 @@
 package controllers;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import models.PwdRecoveryHolder;
 import models.UserAccount;
 import models.forms.LoginForm;
 import models.forms.PasswordForm;
 import models.forms.RecoveryForm;
 import models.forms.RegistrationForm;
-import models.wrappers.MorphiaObject;
 import play.Logger;
-import play.Play;
 import play.data.Form;
 import play.data.validation.ValidationError;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import be.objectify.deadbolt.java.actions.SubjectNotPresent;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
-
-import com.mongodb.MongoException.DuplicateKey;
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
-
-import controllers.util.Secured;
 
 public class Application extends Controller {
   
 	/**
 	 * Modèle du formulaire d'inscription
 	 */
-	
 	static Form<RegistrationForm> registrationForm 	= Form.form(RegistrationForm.class);
 	
 	/**
@@ -83,7 +68,7 @@ public class Application extends Controller {
 			flash("status-css", "status_error");
 			return redirect(routes.Application.register());
 		}
-		else 
+		/*else 
 		{
 			try
 			{
@@ -106,7 +91,9 @@ public class Application extends Controller {
 			{
 				return badRequest();
 			}
-		}
+		}*/
+		
+		return badRequest();
 	}
 	
 	/**
@@ -238,7 +225,7 @@ public class Application extends Controller {
 		}
 		else
 		{
-			String email = form.field("email").value();
+			/*String email = form.field("email").value();
 			UserAccount account = UserAccount.findByMail(email);
 			
 			String randomHash = Secured.hash(UUID.randomUUID().toString());
@@ -265,7 +252,8 @@ public class Application extends Controller {
 				e.printStackTrace();
 			}
 			
-			return redirect(routes.Application.login());
+			return redirect(routes.Application.login());*/
+			return badRequest();
 		}
 	}
 	
@@ -276,7 +264,7 @@ public class Application extends Controller {
 	 */
 	public static Result recoveryForm(String hash)
 	{
-		PwdRecoveryHolder holder = PwdRecoveryHolder.findByHash(hash);
+		/*PwdRecoveryHolder holder = PwdRecoveryHolder.findByHash(hash);
 		
 		if(holder != null && hash != null && !hash.isEmpty())
 		{
@@ -296,7 +284,8 @@ public class Application extends Controller {
 			flash("status", Messages.get("recovery.status.usernotfound"));
 			flash("status-css", "status_error");
 			return redirect(routes.Application.login());
-		}
+		}*/
+		return badRequest();
 	}
 	
 	/**
@@ -320,7 +309,7 @@ public class Application extends Controller {
 		}
 		else
 		{
-			String password = form.field("password").value();
+			/*String password = form.field("password").value();
 			
 			PwdRecoveryHolder holder = PwdRecoveryHolder.findByHash(hash);
 			
@@ -333,7 +322,8 @@ public class Application extends Controller {
 			flash("status", Messages.get("recovery.status.changepassword"));
 			flash("status-css", "status_success");
 			
-			return redirect(routes.Application.login());
+			return redirect(routes.Application.login());*/
+			return badRequest();
 		}
 	}
 	

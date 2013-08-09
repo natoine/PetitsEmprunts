@@ -1,6 +1,6 @@
 package models.forms;
 
-import models.security.Roles;
+import models.UserRole.Roles;
 
 /**
  * Wrapper pour la formulaire d'édition d'utilisateur dans l'administration

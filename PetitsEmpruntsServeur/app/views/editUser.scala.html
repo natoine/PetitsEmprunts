@@ -1,4 +1,4 @@
-@(user : UserAccount, roles : Array[models.security.Roles])
+@(user : UserAccount, roles : List[UserRole])
 
 @import helper._
 @import play.i18n._
@@ -15,9 +15,9 @@
 		
 			@for(r <- roles) {
 				@if(user.getRoles().contains(r)) {
-					<option value="@r" selected="selected">@r.name()</option>
+					<option value="@r" selected="selected">@r.name</option>
 				} else {
-					<option value="@r">@r.name()</option>
+					<option value="@r">@r.name</option>
 				}
 			}
 		</select><br />

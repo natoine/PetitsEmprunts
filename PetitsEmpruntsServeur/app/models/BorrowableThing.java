@@ -1,36 +1,32 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.bson.types.ObjectId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
+import com.avaje.ebean.Ebean;
 
-import models.wrappers.MorphiaObject;
 
-@Entity("Thing")
-public class BorrowableThing 
+@Entity
+public class BorrowableThing extends Model
 {
 	@Id
-	private ObjectId id;
+	public Long id;
 	
-	@Required
-	private String label;
 	
-	private String description;
+	public String label;
+	
+	public String description;
+	
+	public static Finder<Long, BorrowableThing> find = new Finder<Long, BorrowableThing>(Long.class, BorrowableThing.class);
 
-	public ObjectId getId() {
-		return id;
-	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
+	
+	public BorrowableThing()
+	{
 	}
 
 	public String getLabel() {
@@ -51,11 +47,10 @@ public class BorrowableThing
 	
 	public static void create(BorrowableThing thing) 
 	{
-		MorphiaObject.morphia.map(BorrowableThing.class);
-		MorphiaObject.datastore.save(thing);
+		Ebean.save(thing);
 	}
 
-	public static Map<String,String> options()
+	/*public static Map<String,String> options()
 	{
 		List<BorrowableThing> allThings = all();
 		LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
@@ -63,23 +58,33 @@ public class BorrowableThing
 			options.put(thing.id.toString(), thing.getLabel());
 		}
 		return options;
-	}
+	}*/
 	
-	public static List<BorrowableThing> all() {
-		if (MorphiaObject.datastore != null) {
-			return MorphiaObject.datastore.find(BorrowableThing.class).asList();
-		} else {
-			return new ArrayList<BorrowableThing>();
-		}
+	public static List<BorrowableThing> all() 
+	{
+		return find.all();
 	}
 	
 	public static BorrowableThing findByLabel(String label)
 	{
-		return MorphiaObject.datastore.find(BorrowableThing.class).field("label").equal(label).get();
+		return find.where().eq("label", label).findUnique();
 	}
 	
 	public static BorrowableThing findById(String id)
 	{
-		return MorphiaObject.datastore.find(BorrowableThing.class).field("id").equal(new ObjectId(id)).get();
+		return findById(Long.parseLong(id));
+	}
+	
+	public static BorrowableThing findById(Long id)
+	{
+		return find.byId(id);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
