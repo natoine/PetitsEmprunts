@@ -73,21 +73,22 @@ public class Administration extends Controller
 		
 		if(filledForm.hasErrors()) 
 		{
-			flash("status", Messages.get("errorform") + " :<br />" + Application.getHTMLReadableErrors(errors));
+			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
 			flash("status-css", "status_error");
-			return redirect(routes.Application.register());
+			return redirect(routes.Administration.users());
 		}
 		else 
 		{
-			UserAccount user = UserAccount.findByNickname(filledForm.field("nickname").value());
-			
+			// update account
+			UserAccount user = UserAccount.findById(filledForm.field("id").value());
+			user.setNickname(filledForm.field("nickname").value());
 			user.setFirstname(filledForm.field("firstname").value());
 			user.setLastname(filledForm.field("lastname").value());
 			user.setRoles(new ArrayList<UserRole>());
-			
 			UserRole role = UserRole.findByType(Roles.valueOf(filledForm.field("role").value()));
 			user.addRole(role);
-			
+			user.setEmail(filledForm.field("email").value());
+			user.setValidated(filledForm.field("validated").value().equals("on"));
 			UserAccount.update(user);
 			
 			return redirect(routes.Administration.editUser(user.getNickname()));

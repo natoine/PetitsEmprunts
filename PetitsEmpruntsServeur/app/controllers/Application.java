@@ -8,6 +8,7 @@ import models.forms.LoginForm;
 import models.forms.PasswordForm;
 import models.forms.RecoveryForm;
 import models.forms.RegistrationForm;
+
 import play.Logger;
 import play.data.Form;
 import play.data.validation.ValidationError;
@@ -18,11 +19,6 @@ import be.objectify.deadbolt.java.actions.SubjectNotPresent;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 
 public class Application extends Controller {
-  
-	/**
-	 * Modèle du formulaire d'inscription
-	 */
-	static Form<RegistrationForm> registrationForm 	= Form.form(RegistrationForm.class);
 	
 	/**
 	 * Modèle du formulaire de connexion
@@ -38,63 +34,6 @@ public class Application extends Controller {
 	{
 		return ok(views.html.index.render());
 	}
-  
-	/**
-	 * Affiche le formulaire de création de compte utilisateur
-	 * @return
-	 */
-	@SubjectNotPresent
-	public static Result register()
-	{
-		if(!Application.isConnected())
-			return ok(views.html.register.render(registrationForm));
-		else
-			return redirect(routes.Application.index());
-	}
-
-	/**
-	 * Appelé lors de la soumissions du formulaire de création d'un nouveau compte utilisateur. Crée un nouvel utilisateur dans la BDD s'il n'y a pas d'erreurs
-	 * @return
-	 */
-	@SubjectNotPresent
-	public static Result newUserAccount() 
-	{
-		Form<RegistrationForm> filledForm = registrationForm.bindFromRequest();
-		Map<String, List<ValidationError>> errors = filledForm.errors();
-		
-		if(filledForm.hasErrors()) 
-		{
-			flash("status", Messages.get("errorform") + " :<br />" + Application.getHTMLReadableErrors(errors));
-			flash("status-css", "status_error");
-			return redirect(routes.Application.register());
-		}
-		/*else 
-		{
-			try
-			{
-				UserAccount user = new UserAccount();
-				user.setEmail(filledForm.field("email").value());
-				user.setNickname(filledForm.field("nickname").value());
-				user.setFirstname(filledForm.field("firstname").value());
-				user.setHashedPassword(Secured.hash(filledForm.field("password").value()));
-				user.setLastname(filledForm.field("lastname").value());
-				user.setCreationDate(new Date());
-				
-				UserAccount.create(user);
-				
-				flash("status", Messages.get("register.success"));
-				flash("status-css", "status_success");
-				
-				return redirect(routes.Application.login());	
-			}
-			catch(DuplicateKey exception)
-			{
-				return badRequest();
-			}
-		}*/
-		
-		return badRequest();
-	}
 	
 	/**
 	 * Déconnexion d'un utilisateur
@@ -103,7 +42,7 @@ public class Application extends Controller {
 	@SubjectPresent
 	public static Result logout()
 	{
-		if(Application.isConnected())
+		if(AbstractController.isConnected())
 		{
 			session().clear();
 			return redirect(routes.Application.index());
@@ -117,7 +56,7 @@ public class Application extends Controller {
 	 */
 	public static Result login()
 	{
-		if(!Application.isConnected())
+		if(!AbstractController.isConnected())
 		{
 			Form<LoginForm> lform = Form.form(LoginForm.class);	
 			return ok(views.html.login.render(lform));
@@ -140,7 +79,7 @@ public class Application extends Controller {
 		
 		if(form.hasErrors()) 
 		{
-			flash("status", Messages.get("errorform") + " :<br />" + Application.getHTMLReadableErrors(errors));
+			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
 			flash("status-css", "status_error");
 			
 			return badRequest(views.html.login.render(form));
@@ -155,48 +94,6 @@ public class Application extends Controller {
 			Logger.info("Connection of " + form.field("nickname").value());
 			return redirect(routes.Application.userProfile());
 		}
-	}
-	
-	/**
-	 * Renvoi vrai si l'utilisateur est connecté, faux sinon
-	 * @return Renvoi vrai si l'utilisateur est connecté, faux sinon
-	 */
-	public static boolean isConnected()
-	{
-		if(session("nickname") != null)
-			return true;
-		else 
-			return false;
-	}
-	
-	/**
-	 * Renvoi une string HTML affichant les erreurs passées en paramètres
-	 * @param errors liste des erreurs
-	 * @return description HTML des erreurs
-	 */
-	public static String getHTMLReadableErrors(Map<String, List<ValidationError>> errors)
-	{
-		StringBuilder sb = new StringBuilder();
-		
-		for(String key : errors.keySet())
-		{
-			for(ValidationError error : errors.get(key))
-			{
-				if(key != null && !key.isEmpty())
-				{
-					sb.append(key);
-					sb.append(" : ");
-				}
-				
-				if(error.message() != null)
-				{
-					sb.append(error.message());
-					sb.append("<br />");
-				}
-			}
-		}
-		
-		return sb.toString();
 	}
 	
 	/**
@@ -219,7 +116,7 @@ public class Application extends Controller {
 		
 		if(form.hasErrors())
 		{
-			flash("status", Messages.get("errorform") + " :<br />" + Application.getHTMLReadableErrors(errors));
+			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
 			flash("status-css", "status_error");
 			return redirect(routes.Application.passwordRecoveryForm());
 		}
@@ -303,7 +200,7 @@ public class Application extends Controller {
 		
 		if(form.hasErrors()) 
 		{
-			flash("status", Messages.get("errorform") + " :<br />" + Application.getHTMLReadableErrors(errors));
+			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
 			flash("status-css", "status_error");
 			return redirect(routes.Application.recoveryForm(hash));
 		}

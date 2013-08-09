@@ -7,12 +7,15 @@ GET     /                           controllers.Application.index()
 GET 	/login						controllers.Application.login()
 POST 	/login						controllers.Application.checkLoginInfos()
 GET 	/logout						controllers.Application.logout()
-GET 	/register					controllers.Application.register()
 GET		/recovery					controllers.Application.passwordRecoveryForm()
 POST	/recovery					controllers.Application.passwordRecovery()
 
+# registration (as anonymous)
+GET     /register/query             controllers.RegistrationController.query()
+POST    /register/process           controllers.RegistrationController.process()
+GET     /register/validate/:hash    controllers.RegistrationController.validate(hash: String)
+
 #Users
-POST 	/users 						controllers.Application.newUserAccount()
 GET		/recover/:hash				controllers.Application.recoveryForm(hash: String)
 POST 	/recover					controllers.Application.recoveryCheck()
 GET 	/profile					controllers.Application.userProfile()

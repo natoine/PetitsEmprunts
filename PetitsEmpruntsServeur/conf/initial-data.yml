@@ -14,6 +14,7 @@ users:
    firstname: Antoine
    lastname: Seilles
    nickname: admin
+   validated: true
    hashedPassword: 0925e15d0ae6af196e6295923d76af02b4a3420f
    roles:
       - !!models.UserRole
