@@ -11,9 +11,9 @@ GET		/recovery					controllers.Application.passwordRecoveryForm()
 POST	/recovery					controllers.Application.passwordRecovery()
 
 # registration (as anonymous)
-GET 	/register/query				controllers.RegistrationController.query()
-POST 	/register/process			controllers.RegistrationController.process()
-POST    /register/validate/:hash	controllers.RegistrationController.validate(hash: String)
+GET     /register/query             controllers.RegistrationController.query()
+POST    /register/process           controllers.RegistrationController.process()
+GET     /register/validate/:hash    controllers.RegistrationController.validate(hash: String)
 
 #Users
 GET		/recover/:hash				controllers.Application.recoveryForm(hash: String)

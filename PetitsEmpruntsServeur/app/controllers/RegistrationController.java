@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import models.UserAccount;
 import models.forms.RegistrationForm;
+import play.Logger;
 import play.Play;
 import play.data.Form;
 import play.data.validation.ValidationError;
@@ -23,6 +24,7 @@ import com.typesafe.plugin.MailerPlugin;
 
 import controllers.util.Secured;
 
+@SubjectNotPresent
 public class RegistrationController extends Controller {
 
 	/**
@@ -34,7 +36,6 @@ public class RegistrationController extends Controller {
 	/**
 	 * Display form for registration.
 	 */
-	@SubjectNotPresent
 	public static Result query()
 	{
 		if(!AbstractController.isConnected())
@@ -47,7 +48,6 @@ public class RegistrationController extends Controller {
 	 * Process registration form.
 	 * Creates a new user account in database
 	 */
-	@SubjectNotPresent
 	public static Result process()
 	{
 		Form<RegistrationForm> filledForm = registrationForm.bindFromRequest();
@@ -112,10 +112,32 @@ public class RegistrationController extends Controller {
 	/**
 	 * Validates registration.
 	 */
-	@SubjectNotPresent
 	public static Result validate(String hash)
 	{
-		return null;
+		// get user account
+		UserAccount account = UserAccount.findByValidationCode(hash);
+
+		// check if account found
+		if(account == null)
+		{
+			// log warning
+			Logger.warn("Failed to validate account with hash " + hash + " because hash is not valid.");
+			// display error
+			flash("status", Messages.get("registration.validate.error.hashisnotvalid"));
+			flash("status-css", "status_error");
+			return redirect(routes.Application.login());
+		}
+
+		// validate account
+		account.setValidated(true);
+		account.setValidationCode(null);
+		UserAccount.update(account);
+		Logger.info("Validated account " + account.getId() + " with hash " + hash);
+
+		// display info
+		flash("status", Messages.get("register.validate.success"));
+		flash("status-css", "status_success");
+		return redirect(routes.Application.login());
 	}
 
 }

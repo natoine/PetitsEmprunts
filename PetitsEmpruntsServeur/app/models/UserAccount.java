@@ -251,6 +251,14 @@ public class UserAccount implements Subject
 		return MorphiaObject.datastore.find(UserAccount.class).field("_id").equal(id).get();
 	}
 
+	/**
+	 * Finds userAccount by its validationCode
+	 */
+	public static UserAccount findByValidationCode(String validationCode)
+	{
+		return MorphiaObject.datastore.find(UserAccount.class).field("validationCode").equal(validationCode).get();
+	}
+
 	public String getHashedPassword()
 	{
 		return hashedPassword;
