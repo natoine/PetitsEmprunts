@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import models.Person;
 import models.UserAccount;
 import models.forms.RegistrationForm;
 import play.Logger;
@@ -58,14 +59,19 @@ public class RegistrationController extends Controller {
 		} else {
 			// create user account
 			UserAccount user = new UserAccount();
+			Person person = new Person();
 			user.setEmail(filledForm.field("email").value());
 			user.setNickname(filledForm.field("nickname").value());
-			user.setFirstname(filledForm.field("firstname").value());
+			person.setFirstname(filledForm.field("firstname").value());
+			person.setLastname(filledForm.field("lastname").value());
+			user.setPerson(person);
+			Person.create(person);
+			//user.setFirstname(filledForm.field("firstname").value());
 			user.setHashedPassword(Secured.hash(filledForm.field("password")
 					.value()));
 			user.setValidated(false);
 			user.setValidationCode(Secured.hash(UUID.randomUUID().toString()));
-			user.setLastname(filledForm.field("lastname").value());
+			//user.setLastname(filledForm.field("lastname").value());
 			user.setCreationDate(new Date());
 
 			// persist user account

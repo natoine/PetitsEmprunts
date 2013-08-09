@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
 import be.objectify.deadbolt.core.models.Permission;
@@ -33,16 +34,8 @@ public class UserAccount extends Model implements Subject
 	 */
 	public String nickname ;
 	
-	/**
-	 * Prénom
-	 */
-	public String firstname ;
-	
-	/**
-	 * Nom
-	 */
-	public String lastname ;
-	
+	@OneToOne
+	public Person person ;
 	/**
 	 * Email
 	 */
@@ -95,22 +88,30 @@ public class UserAccount extends Model implements Subject
 
 	public String getFirstname() 
 	{
-		return firstname;
+		return person.getFirstname();
 	}
 
 	public void setFirstname(String firstname) 
 	{
-		this.firstname = firstname;
+		person.setFirstname(firstname);
 	}
 
 	public String getLastname() 
 	{
-		return lastname;
+		return person.getLastname();
 	}
 
 	public void setLastname(String lastname) 
 	{
-		this.lastname = lastname;
+		person.setLastname(lastname);
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	public String getEmail() 

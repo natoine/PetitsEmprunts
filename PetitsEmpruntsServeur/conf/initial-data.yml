@@ -6,13 +6,21 @@ roles:
    name: Admin
    role: Admin
 
+persons:
+
+- !!models.Person
+    id: 1
+    firstname: Antoine
+    lastname: Seilles
+
 users:
 
 # password : admin
 - !!models.UserAccount
    email: admin@naturalpad.fr
-   firstname: Antoine
-   lastname: Seilles
+   person:
+     - !!models.Person
+        id: 1
    nickname: admin
    validated: true
    hashedPassword: 0925e15d0ae6af196e6295923d76af02b4a3420f
