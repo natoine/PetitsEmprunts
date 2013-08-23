@@ -9,13 +9,13 @@
 	<p>@(Messages.get("index.welcome"))</p>
 	
 	@subjectNotPresent() {
-		<p><a href="/login">@(Messages.get("index.link.connect"))</a></p>
-		<p><a href="/register/query">@(Messages.get("index.link.register"))</a></p>
+		<p><a href="/login" class="btn btn-default">@(Messages.get("index.link.connect"))</a></p>
+		<p><a href="/register/query" class="btn btn-default">@(Messages.get("index.link.register"))</a></p>
 	}
 	
 	@subjectPresent() {
-		<p><a href="/admin">@(Messages.get("index.link.admin"))</a>
-		<p><a href="/profile">@(Messages.get("index.link.myProfile"))</a></p>
+		<p><a href="/admin" class="btn btn-default">@(Messages.get("index.link.admin"))</a>
+		<p><a href="/profile" class="btn btn-default">@(Messages.get("index.link.myProfile"))</a></p>
 	}
 
 }
