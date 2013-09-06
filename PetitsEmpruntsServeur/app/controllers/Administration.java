@@ -33,7 +33,7 @@ public class Administration extends Controller
 	 */
 	public static Result index()
 	{
-		return ok(views.html.admin.render());
+		return ok(views.html.admin.admin.render());
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class Administration extends Controller
 	public static Result users()
 	{
 		List<UserAccount> users = UserAccount.all();
-		return ok(views.html.users.render(users));
+		return ok(views.html.admin.users.render(users));
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class Administration extends Controller
 		
 		//Roles[] roles = Roles.values();
 		
-		return ok(views.html.editUser.render(user, roles));
+		return ok(views.html.admin.editUser.render(user, roles));
 	}
 	
 	/**

@@ -91,7 +91,7 @@ public class Application extends Controller {
 		if(form.hasErrors()) 
 		{
 			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
-			flash("status-css", "status_error");
+			flash("status-css", "alert-danger");
 			
 			return badRequest(views.html.login.render(form));
 		}
@@ -100,7 +100,7 @@ public class Application extends Controller {
 			session("nickname", form.field("nickname").value());
 			
 			flash("status", Messages.get("authentication.success"));
-			flash("status-css", "status_success");
+			flash("status-css", "alert-success");
 			
 			Logger.info("Connection of " + form.field("nickname").value());
 			return redirect(routes.Application.userProfile());
@@ -128,7 +128,7 @@ public class Application extends Controller {
 		if(form.hasErrors())
 		{
 			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
-			flash("status-css", "status_error");
+			flash("status-css", "alert-danger");
 			return redirect(routes.Application.passwordRecoveryForm());
 		}
 		else
@@ -155,7 +155,7 @@ public class Application extends Controller {
 				PwdRecoveryHolder.create(holder);
 				
 				flash("status", Messages.get("recovery.status.success"));
-				flash("status-css", "status_info");
+				flash("status-css", "alert-info");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -182,14 +182,14 @@ public class Application extends Controller {
 			else
 			{
 				flash("status", Messages.get("recovery.status.expire"));
-				flash("status-css", "status_error");
+				flash("status-css", "alert-danger");
 				return redirect(routes.Application.login());
 			}
 		}
 		else
 		{
 			flash("status", Messages.get("recovery.status.usernotfound"));
-			flash("status-css", "status_error");
+			flash("status-css", "alert-danger");
 			return redirect(routes.Application.login());
 		}
 	}
@@ -210,7 +210,7 @@ public class Application extends Controller {
 		if(form.hasErrors()) 
 		{
 			flash("status", Messages.get("errorform") + " :<br />" + AbstractController.getHTMLReadableErrors(errors));
-			flash("status-css", "status_error");
+			flash("status-css", "alert-danger");
 			return redirect(routes.Application.recoveryForm(hash));
 		}
 		else
@@ -226,7 +226,7 @@ public class Application extends Controller {
 			PwdRecoveryHolder.delete(holder.getId());
 			
 			flash("status", Messages.get("recovery.status.changepassword"));
-			flash("status-css", "status_success");
+			flash("status-css", "alert-success");
 			
 			return redirect(routes.Application.login());
 		}
@@ -239,7 +239,7 @@ public class Application extends Controller {
 	 */
 	public static Result userProfile()
 	{
-		return ok(views.html.userProfile.render());
+		return ok(views.html.user.userProfile.render());
 	}
   
 }

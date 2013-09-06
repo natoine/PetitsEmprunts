@@ -10,15 +10,29 @@
 	
 	<p>@(Messages.get("login.info")) :</p>
 	
-	@helper.form(action = routes.Application.checkLoginInfos()) {
-		@(Messages.get("login.nickname")) : <br />
-		<input type="text" name="nickname" /><br /><br />
-		@(Messages.get("login.password")) :<br />
-		<input type="password" name="password" /><br /><br />
-		<input type="submit" value="@(Messages.get("login.button.submit"))" />
-		
-		<p>@(Messages.get("login.button.register.info")) <a href="/register/query">@Messages.get("login.button.register")</a></p>
-		<p><a href="/recovery">@(Messages.get("login.button.recovery"))</a></p>
-	}
+		@helper.form(action = routes.Application.checkLoginInfos(), 'class -> "form-horizontal") {
+			<div class="form-group">
+				<label for=="inputNickname" class="col-lg-2 control-label">@(Messages.get("login.nickname")) :</label>
+				<div class="col-lg-10">
+					<input type="text" name="nickname" id="inputNickname" class="form-control" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for==""inputPassword"" class="col-lg-2 control-label">@(Messages.get("login.password")) :</label>
+				<div class="col-lg-10">
+					<input type="password" name="nickname" id="inputPassword" class="form-control" />
+				</div>
+			</div>
+			
+			 <div class="form-group">
+	    		<div class="col-lg-offset-2 col-lg-10">
+					<input type="submit" value="@(Messages.get("login.button.submit"))" class="btn btn-primary btn-lg btn-block" />
+				</div>
+			</div>
+			
+			<p>@(Messages.get("login.button.register.info")) <a href="/register/query">@Messages.get("login.button.register")</a></p>
+			<p><a href="/recovery">@(Messages.get("login.button.recovery"))</a></p>
+		}
 
 }

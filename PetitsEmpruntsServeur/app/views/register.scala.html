@@ -7,17 +7,50 @@
 
 	<h1>@(Messages.get("register.h1"))</h1>
 	
-	@form(routes.RegistrationController.process()) {
+	@form(routes.RegistrationController.process(), 'class -> "form-horizontal") {
 	
-		@Messages.get("register.form.nickname") : <br /><input type="text" name="nickname" /><br /><br />
-		@Messages.get("register.form.firstname") : <br /><input type="text" name="firstname" /><br /><br />
-		@Messages.get("register.form.lastname") : <br /><input type="text" name="lastname" /><br /><br />
-		@Messages.get("register.form.email") : <br /><input type="text" name="email" /><br /><br />
-		@Messages.get("register.form.password") : <br /><input type="password" name="password" /><br /><br />
-		@Messages.get("register.form.password.verify") : <br /><input type="password" name="passwordRepeat" /><br /><br />
-
-     	<input type="submit" value="@(Messages.get("register.button.submit"))">
-  
+	<div class="form-group">
+		<label for=="inputNickname" class="col-lg-2 control-label">@Messages.get("register.form.nickname") :</label>
+		<div class="col-lg-10">
+			<input class="form-control" type="text" name="nickname" id="inputNickname" />
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for=="inputFirstname" class="col-lg-2 control-label">@Messages.get("register.form.firstname") :</label>
+		<div class="col-lg-10">
+			<input class="form-control" type="text" name="firstname" id="inputFirstname" />
+		</div>
+	</div>	
+	<div class="form-group">
+		<label for=="inputLastname" class="col-lg-2 control-label">@Messages.get("register.form.lastname") :</label>
+		<div class="col-lg-10">
+			<input class="form-control" type="text" name="lastname" id="inputLastname" />
+		</div>
+	</div>	
+	<div class="form-group">
+		<label for=="inputEmail" class="col-lg-2 control-label">@Messages.get("register.form.email") :</label>
+		<div class="col-lg-10">
+			<input class="form-control" type="text" name="email" id="inputEmail" />
+		</div>
+	</div>	
+	<div class="form-group">
+		<label for=="inputPassword" class="col-lg-2 control-label">@Messages.get("register.form.password") :</label>
+		<div class="col-lg-10">
+			<input class="form-control" type="password" name="password" id="inputPassword" />
+		</div>
+	</div>	
+	<div class="form-group">
+		<label for=="inputPasswordRepeat" class="col-lg-2 control-label">@Messages.get("register.form.password.verify") :</label>
+		<div class="col-lg-10">
+			<input class="form-control" type="password" name="passwordRepeat" id="inputPasswordRepeat" />
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-offset-2 col-lg-10">
+     		<input class="btn btn-lg btn-primary btn-block" type="submit" value="@(Messages.get("register.button.submit"))">
+     	</div>
+  	</div>
   }
 	
 }
