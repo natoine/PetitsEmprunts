@@ -6,11 +6,5 @@
 @main(Messages.get("userProfile.title")) {
 	<h1>@Messages.get("userProfile.h1") @session.get("nickname")</h1>
 
-	<ul>
-		<li><a href="/logout">@Messages.get("userProfile.link.disconnect")</a></li>
-
-		@restrict(la(as("Admin"))) {
-			<li><a href="/admin">@Messages.get("userProfile.link.administration")</a></li>
-		}
-	</ul>
+	This is MyStuff !!
 }

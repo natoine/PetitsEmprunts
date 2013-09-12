@@ -74,7 +74,7 @@ public class Application extends Controller {
 		}
 		else
 		{
-			return redirect(routes.Application.userProfile());
+			return redirect(routes.ContentController.displayUserProfile());
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class Application extends Controller {
 			flash("status-css", "alert-success");
 			
 			Logger.info("Connection of " + form.field("nickname").value());
-			return redirect(routes.Application.userProfile());
+			return redirect(routes.ContentController.displayUserProfile());
 		}
 	}
 	
@@ -230,16 +230,6 @@ public class Application extends Controller {
 			
 			return redirect(routes.Application.login());
 		}
-	}
-	
-	@SubjectPresent
-	/**
-	 * Page affichée lorsqu'un utilisateur est connecté. Page de profil.
-	 * @return
-	 */
-	public static Result userProfile()
-	{
-		return ok(views.html.user.userProfile.render());
 	}
   
 }

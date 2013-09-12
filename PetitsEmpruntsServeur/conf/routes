@@ -4,28 +4,33 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+
+# authentication
 GET 	/login						controllers.Application.login()
 POST 	/login						controllers.Application.checkLoginInfos()
 GET 	/logout						controllers.Application.logout()
 GET		/recovery					controllers.Application.passwordRecoveryForm()
 POST	/recovery					controllers.Application.passwordRecovery()
+GET		/recover/:hash				controllers.Application.recoveryForm(hash: String)
+POST 	/recover					controllers.Application.recoveryCheck()
 
 # registration (as anonymous)
 GET     /register/query             controllers.RegistrationController.query()
 POST    /register/process           controllers.RegistrationController.process()
 GET     /register/validate/:hash    controllers.RegistrationController.validate(hash: String)
 
-#Users
-GET		/recover/:hash				controllers.Application.recoveryForm(hash: String)
-POST 	/recover					controllers.Application.recoveryCheck()
-GET 	/profile					controllers.Application.userProfile()
-
-
-#Admin
+# admin (as admin)
 GET		/admin						controllers.Administration.index()
 GET		/users						controllers.Administration.users()
 GET		/editUser/:nickname			controllers.Administration.editUser(nickname : String)
 POST	/confirmEditUser			controllers.Administration.confirmEditUser()
 
+# content (as user)
+GET     /mypage                     controllers.ContentController.displayMyPage()
+GET     /mystuff                    controllers.ContentController.displayMyStuff()
+GET     /myfriends                  controllers.ContentController.displayMyFriends()
+GET     /profile                    controllers.ContentController.displayUserProfile()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
