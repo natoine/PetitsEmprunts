@@ -100,3 +100,12 @@ userProfile.link.administration=Administration
 # USERS
 users.title=Liste des utilisateurs
 users.h1=Liste des utilisateurs
+
+# MY PAGE
+mypage.link.name=Ma Page
+
+# MY STUFF
+mystuff.link.name=Mes Affaires
+
+# MY FRIENDS
+myfriends.link.name=Mes Amis

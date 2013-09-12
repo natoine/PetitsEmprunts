@@ -1,5 +1,9 @@
 @(title: String)(content: Html)
 
+@import play.i18n._
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
+
 <!DOCTYPE html>
 
 <html>
@@ -27,8 +31,19 @@
 	        <div class="collapse navbar-collapse">
 	          <ul class="nav navbar-nav">
 	            <li><a href="/">Accueil</a></li>
-	            <li><a href="/login">Se connecter</a></li>
-	            <li><a href="/register/query">S'enregistrer</a></li>
+
+                @subjectNotPresent() {
+                    <li><a href="/login">Se connecter</a></li>
+                    <li><a href="/register/query">S'enregistrer</a></li>
+                }
+
+                @subjectPresent() {
+                    <li><a href="/mypage">@Messages.get("mypage.link.name")</a></li>
+                    <li><a href="/mystuff">@Messages.get("mystuff.link.name")</a></li>
+                    <li><a href="/myfriends">@Messages.get("myfriends.link.name")</a></li>
+                    <li><a href="/logout">@Messages.get("userProfile.link.disconnect")</a></li>
+                }
+
 	          </ul>
 	        </div><!-- /.nav-collapse -->
 	      </div><!-- /.container -->
